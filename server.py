@@ -5,6 +5,7 @@ import math
 import urllib.parse
 import os
 import re
+import os
 
 PORT = int(os.environ.get("PORT", 8000))
 INDEX_FILE = "rag_index.json"
@@ -14,12 +15,19 @@ KEY_FILE = "gemini_key.txt"
 # SECURE API KEY GATEWAYS
 # --------------------------------------------------------------------------
 def get_gemini_key():
+    # First, check the Render environment variable
+    env_key = os.getenv("GEMINI_API_KEY")
+    if env_key:
+        return env_key.strip()
+
+    # Fallback for local development
     if os.path.exists(KEY_FILE):
         try:
-            with open(KEY_FILE, 'r', encoding='utf-8') as f:
+            with open(KEY_FILE, "r", encoding="utf-8") as f:
                 return f.read().strip()
         except Exception:
             return None
+
     return None
 
 def call_gemini_api(api_key, user_message, history, system_instruction):
