@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aditya Portfolio | Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /* Embedded styling to refine admin panel aesthetics */
+        .tab-section {
+            display: none;
+        }
+        .tab-section.active {
+            display: block;
+        }
+        .admin-nav-btn i {
+            width: 20px;
+            text-align: center;
+        }
+        .form-row-full {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .form-row-full label {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas for Floating Particles -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Success Toast Notification -->
+    <div class="admin-toast" id="admin-toast">Configuration Updated Successfully!</div>
+
+    <!-- Login Gate View -->
+    <div class="admin-login-wrapper" id="login-gate">
+        <div class="admin-login-card glass-panel">
+            <h2>ADMIN ACCESS</h2>
+            <p>Enter password to unlock portfolio configuration controls.</p>
+            <form id="login-form">
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <input type="password" id="login-pass" class="form-input" placeholder=" " required>
+                    <label for="login-pass" class="form-label">Password</label>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; border: none; cursor: pointer;">Unlock Dashboard</button>
+            </form>
+            <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--color-text-secondary);">Default password is: <code style="color: var(--color-accent);">admin123</code></p>
+        </div>
+    </div>
+
+    <!-- Main Admin Dashboard Container (Hidden by default) -->
+    <div class="admin-container" id="admin-dashboard" style="display: none;">
+        <!-- Left Sidebar Navigation -->
+        <div class="admin-sidebar glass-panel">
+            <h2 class="logo" style="margin-bottom: 2rem; padding-left: 0.5rem;">ADMIN<span>.</span></h2>
+            <ul class="admin-nav">
+                <li><button class="admin-nav-btn active" data-tab="tab-profile"><i class="fa-solid fa-user"></i> Profile</button></li>
+                <li><button class="admin-nav-btn" data-tab="tab-metrics"><i class="fa-solid fa-chart-simple"></i> Metrics</button></li>
+                <li><button class="admin-nav-btn" data-tab="tab-project"><i class="fa-solid fa-camera-retro"></i> Project</button></li>
+                <li><button class="admin-nav-btn" data-tab="tab-bot"><i class="fa-solid fa-comment-dots"></i> Chatbot</button></li>
+                <li style="margin-top: 2rem; border-top: var(--border-glass); padding-top: 1.5rem;">
+                    <button class="admin-nav-btn" id="logout-btn" style="color: #ef4444;"><i class="fa-solid fa-power-off"></i> Logout</button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Right Panels Content -->
+        <div class="admin-main-panel glass-panel">
+            <form id="admin-config-form" class="admin-form">
+                
+                <!-- TAB 1: PROFILE SETTINGS -->
+                <div class="tab-section active" id="tab-profile">
+                    <div class="admin-panel-header">
+                        <h3>Profile Settings</h3>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div class="admin-form-row">
+                            <label for="conf-name">Hero Name</label>
+                            <input type="text" id="conf-name" class="admin-form-input" required>
+                        </div>
+                        <div class="admin-form-row">
+                            <label for="conf-label">Hero Tag</label>
+                            <input type="text" id="conf-label" class="admin-form-input" required>
+                        </div>
+                        <div class="form-row-full">
+                            <label for="conf-tagline">Hero Tagline</label>
+                            <textarea id="conf-tagline" class="admin-form-input" required></textarea>
+                        </div>
+                        <div class="form-row-full">
+                            <label for="conf-about">About Biography</label>
+                            <textarea id="conf-about" class="admin-form-input" style="height: 150px;" required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: METRICS & COUNTERS -->
+                <div class="tab-section" id="tab-metrics">
+                    <div class="admin-panel-header">
+                        <h3>Metrics & Stats</h3>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 2rem;">
+                        <!-- Metric 1 -->
+                        <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                            <h4 style="color: var(--color-accent); font-size: 0.95rem;">Metric 1</h4>
+                            <div class="admin-form-row">
+                                <label for="m1-val">Value</label>
+                                <input type="text" id="m1-val" class="admin-form-input" required>
+                            </div>
+                            <div class="admin-form-row">
+                                <label for="m1-lbl">Label</label>
+                                <input type="text" id="m1-lbl" class="admin-form-input" required>
+                            </div>
+                        </div>
+                        <!-- Metric 2 -->
+                        <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                            <h4 style="color: var(--color-accent); font-size: 0.95rem;">Metric 2</h4>
+                            <div class="admin-form-row">
+                                <label for="m2-val">Value</label>
+                                <input type="text" id="m2-val" class="admin-form-input" required>
+                            </div>
+                            <div class="admin-form-row">
+                                <label for="m2-lbl">Label</label>
+                                <input type="text" id="m2-lbl" class="admin-form-input" required>
+                            </div>
+                        </div>
+                        <!-- Metric 3 -->
+                        <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                            <h4 style="color: var(--color-accent); font-size: 0.95rem;">Metric 3</h4>
+                            <div class="admin-form-row">
+                                <label for="m3-val">Value</label>
+                                <input type="text" id="m3-val" class="admin-form-input" required>
+                            </div>
+                            <div class="admin-form-row">
+                                <label for="m3-lbl">Label</label>
+                                <input type="text" id="m3-lbl" class="admin-form-input" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: EMOTIONAI DATA -->
+                <div class="tab-section" id="tab-project">
+                    <div class="admin-panel-header">
+                        <h3>Featured Project</h3>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div class="admin-form-row">
+                            <label for="p-title">Project Title</label>
+                            <input type="text" id="p-title" class="admin-form-input" required>
+                        </div>
+                        <div class="form-row-full">
+                            <label for="p-desc">Description</label>
+                            <textarea id="p-desc" class="admin-form-input" style="height: 150px;" required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: CHATBOT CONFIG -->
+                <div class="tab-section" id="tab-bot">
+                    <div class="admin-panel-header">
+                        <h3>AI Chatbot Customizer</h3>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div class="form-row-full">
+                            <label for="bot-greet">Greeting Message</label>
+                            <textarea id="bot-greet" class="admin-form-input" required></textarea>
+                        </div>
+                        <div class="form-row-full">
+                            <label for="bot-mock">Hero Panel Speech Bubble</label>
+                            <input type="text" id="bot-mock" class="admin-form-input" required>
+                        </div>
+                        
+                        <!-- RAG Overrides List -->
+                        <h4 style="margin-top: 1.5rem; color: var(--color-accent); font-size: 0.95rem;">RAG Offline Replies</h4>
+                        <div id="rag-items-container" style="display: flex; flex-direction: column; gap: 1rem;">
+                            <!-- Dynamically injected via script -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Form Actions -->
+                <div class="admin-actions">
+                    <button type="button" class="btn-secondary" id="reset-btn" style="border-color: #ef4444; color: #ef4444;">Restore Defaults</button>
+                    <button type="button" class="btn-secondary" id="export-btn">Export Config JSON</button>
+                    <button type="submit" class="btn-primary" style="border: none; cursor: pointer;">Save Changes</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Script logic for authentication, tab navigation, configuration management -->
+    <script>
+        // Default Baseline Configuration Database
+        const DEFAULT_CONFIG = {
+            profile: {
+                name: "ADITYA",
+                label: "AI & Software Engineer",
+                tagline: "Building premium full-stack interfaces, hardware-integrated mobile systems (Flutter), and intelligent agent implementations. Crafting high-performance digital ecosystems.",
+                about: "<p>I design and implement custom digital applications that combine functional efficiency with premium visual appeal. My expertise spans mobile development via Flutter (integrating device hardware and local storage solutions) and advanced AI pipelines (utilizing Large Language Model APIs for custom reasoning tasks).</p><p>Inspired by premium digital agency philosophies, I prioritize high performance, micro-interactions, responsive structures, and strong typographic layout. Every system I build is structured for scalability and long-term search accessibility.</p>"
+            },
+            metrics: {
+                m1Val: "5+",
+                m1Lbl: "Projects Done",
+                m2Val: "99%",
+                m2Lbl: "Code Quality",
+                m3Val: "2x",
+                m3Lbl: "Load Speedup"
+            },
+            project: {
+                title: "EmotionAI App",
+                desc: "A native Flutter application integrated with a localized camera feed controller to evaluate facial features and process emotion classifications in real time. It binds hardware camera streams, handles frame buffers efficiently, and uses optimized inference files for local predictions."
+            },
+            chatbot: {
+                greeting: "Hi! I am Aditya's AI Assistant. I can tell you about his projects (like the Camera Service inside EmotionAI), skills, workflow, or contact details. Ask me anything!",
+                mockText: "\"Hi! I can share Aditya's experience in full-stack dev and AI. What would you like to know?\"",
+                ragReplies: [
+                    {
+                        keywords: "emotionai, facial, face, camera, expression, emotion, classification",
+                        answer: "EmotionAI is one of Aditya's core projects. It's a Flutter mobile app utilizing standard camera stream controls to feed frames into an expression analysis network, providing real-time emotional readings."
+                    },
+                    {
+                        keywords: "camera service, camera_service, service, stream",
+                        answer: "The Camera Service class manages active lens initializations, camera configurations, frames pipelines, and platform permissions to connect physical hardware feeds with processing models."
+                    },
+                    {
+                        keywords: "skills, technologies, tech, languages, specialize, experience",
+                        answer: "Aditya specializes in cross-platform systems (Flutter/Dart), frontend design (HTML, Vanilla CSS, JS), backend operations (Node.js, Express, Python), and AI/LLM api orchestration."
+                    },
+                    {
+                        keywords: "process, workflow, steps, how you work, development",
+                        answer: "His roadmap involves 4 key phases: 1) Discovery & specs, 2) Visual layout/styling structure design, 3) Implementation of state pipelines & code logic, and 4) Production speed optimizations."
+                    },
+                    {
+                        keywords: "contact, hire, email, phone, reach, location",
+                        answer: "You can reach Aditya directly at info@aditya.dev, fill out the inquiry form in the contact section, or check his GitHub at github.com."
+                    },
+                    {
+                        keywords: "who are you, describe aditya, tell me about yourself, about",
+                        answer: "Aditya is an AI & Full-Stack/Mobile Engineer focused on building high-performance creative interfaces and custom machine learning pipelines. He designs scalable web platforms and native Flutter applications."
+                    }
+                ]
+            }
+        };
+
+        // DOM elements
+        const loginGate = document.getElementById('login-gate');
+        const adminDashboard = document.getElementById('admin-dashboard');
+        const loginForm = document.getElementById('login-form');
+        const loginPass = document.getElementById('login-pass');
+        const logoutBtn = document.getElementById('logout-btn');
+        const toast = document.getElementById('admin-toast');
+
+        // Check Session Authentication status
+        if (sessionStorage.getItem('admin_authenticated') === 'true') {
+            showDashboard();
+        }
+
+        // Login Submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (loginPass.value === 'admin123') {
+                sessionStorage.setItem('admin_authenticated', 'true');
+                showDashboard();
+            } else {
+                alert('Invalid password. Default password is: admin123');
+            }
+        });
+
+        // Logout action
+        logoutBtn.addEventListener('click', () => {
+            sessionStorage.removeItem('admin_authenticated');
+            location.reload();
+        });
+
+        function showDashboard() {
+            loginGate.style.display = 'none';
+            adminDashboard.style.display = 'grid';
+            loadConfiguration();
+            initTabs();
+        }
+
+        // TAB SYSTEM HANDLER
+        function initTabs() {
+            const navButtons = document.querySelectorAll('.admin-nav-btn');
+            const tabSections = document.querySelectorAll('.tab-section');
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    if (!tabId) return;
+
+                    navButtons.forEach(b => b.classList.remove('active'));
+                    tabSections.forEach(s => s.classList.remove('active'));
+
+                    btn.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+
+        // LOAD CURRENT CONFIG
+        let currentConfig = null;
+        function loadConfiguration() {
+            const raw = localStorage.getItem('portfolio_config');
+            if (raw) {
+                try {
+                    currentConfig = JSON.parse(raw);
+                } catch(e) {
+                    console.error("Fail parse custom config, default used:", e);
+                    currentConfig = {...DEFAULT_CONFIG};
+                }
+            } else {
+                currentConfig = {...DEFAULT_CONFIG};
+            }
+
+            // Bind values to inputs
+            document.getElementById('conf-name').value = currentConfig.profile.name;
+            document.getElementById('conf-label').value = currentConfig.profile.label;
+            document.getElementById('conf-tagline').value = currentConfig.profile.tagline;
+            document.getElementById('conf-about').value = currentConfig.profile.about;
+
+            document.getElementById('m1-val').value = currentConfig.metrics.m1Val;
+            document.getElementById('m1-lbl').value = currentConfig.metrics.m1Lbl;
+            document.getElementById('m2-val').value = currentConfig.metrics.m2Val;
+            document.getElementById('m2-lbl').value = currentConfig.metrics.m2Lbl;
+            document.getElementById('m3-val').value = currentConfig.metrics.m3Val;
+            document.getElementById('m3-lbl').value = currentConfig.metrics.m3Lbl;
+
+            document.getElementById('p-title').value = currentConfig.project.title;
+            document.getElementById('p-desc').value = currentConfig.project.desc;
+
+            document.getElementById('bot-greet').value = currentConfig.chatbot.greeting;
+            document.getElementById('bot-mock').value = currentConfig.chatbot.mockText;
+
+            // Generate RAG override inputs
+            const container = document.getElementById('rag-items-container');
+            container.innerHTML = '';
+
+            currentConfig.chatbot.ragReplies.forEach((reply, idx) => {
+                const item = document.createElement('div');
+                item.className = 'glass-panel';
+                item.style.padding = '1.5rem';
+                item.style.display = 'flex';
+                item.style.flexDirection = 'column';
+                item.style.gap = '0.8rem';
+                
+                // Truncate keywords list to show in card
+                const labelName = reply.keywords.split(',')[0].toUpperCase();
+                
+                item.innerHTML = `
+                    <h5 style="color: var(--color-accent); font-size: 0.9rem;">Topic Key: ${labelName}</h5>
+                    <div class="admin-form-row">
+                        <label>Keywords</label>
+                        <input type="text" class="admin-form-input rag-kw-input" data-index="${idx}" value="${reply.keywords}" required>
+                    </div>
+                    <div class="form-row-full">
+                        <label>AI Response</label>
+                        <textarea class="admin-form-input rag-ans-input" data-index="${idx}" required>${reply.answer}</textarea>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // SAVE CONFIG FORM SUBMIT
+        const configForm = document.getElementById('admin-config-form');
+        configForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Extract values
+            currentConfig.profile.name = document.getElementById('conf-name').value.trim();
+            currentConfig.profile.label = document.getElementById('conf-label').value.trim();
+            currentConfig.profile.tagline = document.getElementById('conf-tagline').value.trim();
+            currentConfig.profile.about = document.getElementById('conf-about').value.trim();
+
+            currentConfig.metrics.m1Val = document.getElementById('m1-val').value.trim();
+            currentConfig.metrics.m1Lbl = document.getElementById('m1-lbl').value.trim();
+            currentConfig.metrics.m2Val = document.getElementById('m2-val').value.trim();
+            currentConfig.metrics.m2Lbl = document.getElementById('m2-lbl').value.trim();
+            currentConfig.metrics.m3Val = document.getElementById('m3-val').value.trim();
+            currentConfig.metrics.m3Lbl = document.getElementById('m3-lbl').value.trim();
+
+            currentConfig.project.title = document.getElementById('p-title').value.trim();
+            currentConfig.project.desc = document.getElementById('p-desc').value.trim();
+
+            currentConfig.chatbot.greeting = document.getElementById('bot-greet').value.trim();
+            currentConfig.chatbot.mockText = document.getElementById('bot-mock').value.trim();
+
+            // Extract RAG inputs
+            const kwInputs = document.querySelectorAll('.rag-kw-input');
+            const ansInputs = document.querySelectorAll('.rag-ans-input');
+
+            kwInputs.forEach(input => {
+                const idx = parseInt(input.getAttribute('data-index'));
+                currentConfig.chatbot.ragReplies[idx].keywords = input.value.trim();
+            });
+
+            ansInputs.forEach(textarea => {
+                const idx = parseInt(textarea.getAttribute('data-index'));
+                currentConfig.chatbot.ragReplies[idx].answer = textarea.value.trim();
+            });
+
+            // Save to LocalStorage
+            localStorage.setItem('portfolio_config', JSON.stringify(currentConfig));
+
+            // Display notification
+            showToast('Portfolio Settings Saved!');
+        });
+
+        // RESTORE DEFAULTS Action
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset all configurations to their original code defaults? This will erase custom saved values.')) {
+                localStorage.removeItem('portfolio_config');
+                loadConfiguration();
+                showToast('Original Defaults Restored!');
+            }
+        });
+
+        // EXPORT CONFIG JSON FILE
+        document.getElementById('export-btn').addEventListener('click', () => {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentConfig, null, 4));
+            const dlAnchorElem = document.createElement('a');
+            dlAnchorElem.setAttribute("href", dataStr);
+            dlAnchorElem.setAttribute("download", "portfolio-config.json");
+            document.body.appendChild(dlAnchorElem);
+            dlAnchorElem.click();
+            dlAnchorElem.remove();
+        });
+
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Particle background canvas resize
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let particles = [];
+        for (let i = 0; i < 20; i++) {
+            particles.push({
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                size: Math.random() * 2 + 1,
+                speedY: -(Math.random() * 0.4 + 0.1),
+                opacity: Math.random() * 0.3 + 0.1
+            });
+        }
+        function anim() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            particles.forEach(p => {
+                p.y += p.speedY;
+                if (p.y < 0) {
+                    p.y = canvas.height;
+                    p.x = Math.random() * canvas.width;
+                }
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                ctx.fillStyle = `rgba(255, 204, 1, ${p.opacity})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(anim);
+        }
+        anim();
+    </script>
+</body>
+</html>

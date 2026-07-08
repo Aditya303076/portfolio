@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aditya | Creative Full-Stack & AI Developer Portfolio</title>
+    
+    <!-- Meta Descriptions for SEO -->
+    <meta name="description" content="Explore Aditya's interactive developer portfolio featuring advanced AI chatbots, custom Flutter applications, and high-performance full-stack web designs.">
+    <meta name="keywords" content="Aditya, Portfolio, Full-Stack Developer, AI Chatbot, Flutter Developer, Web Development, Creative Coding, EmotionAI">
+    <meta name="author" content="Aditya">
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <!-- Canvas for Floating Particles -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation Header -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">ADITYA<span>.</span></a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#projects">Work</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contact" class="btn-secondary" style="padding: 0.5rem 1.2rem; font-size: 0.9rem;">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn" aria-label="Toggle Menu" id="mobile-menu-btn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero / Banner Section -->
+    <section class="hero-section" id="hero">
+        <div class="glow-aura" style="top: 10%; left: 5%;"></div>
+        <div class="hero-grid">
+            <div class="hero-content reveal-item">
+                <span class="section-label" id="dyn-hero-label">AI & Software Engineer</span>
+                <h1 id="dyn-hero-title">ADITYA<br><span class="text-stroke">DEV & CREATIVE</span><br>ENGINEER</h1>
+                <p class="hero-tagline" id="dyn-hero-tagline">
+                    Building premium full-stack interfaces, hardware-integrated mobile systems (Flutter), and intelligent agent implementations. Crafting high-performance digital ecosystems.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn-primary">Get in Touch</a>
+                    <a href="javascript:void(0)" class="btn-secondary" id="hero-chat-btn">Ask Aditya AI</a>
+                </div>
+                <div class="hero-metrics">
+                    <div class="metric-card">
+                        <h3 id="dyn-metric-1">5+</h3>
+                        <p id="dyn-metric-1-label">Projects Done</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3 id="dyn-metric-2">99%</h3>
+                        <p id="dyn-metric-2-label">Code Quality</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3 id="dyn-metric-3">2x</h3>
+                        <p id="dyn-metric-3-label">Load Speedup</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-mockup reveal-item" style="transition-delay: 0.2s;">
+                <div class="mockup-container">
+                    <div class="mockup-bg-circle"></div>
+                    <!-- Code Panel Card -->
+                    <div class="mockup-item code glass-panel">
+                        <span style="color: #6b7280; font-family: monospace;">// camera_service.dart</span>
+                        <div style="margin-top: 5px; color: #34d399;">import 'package:camera/camera.dart';</div>
+                        <div style="margin-top: 5px; color: #ffcc01;">class CameraService {</div>
+                        <div style="margin-left: 15px; color: #60a5fa;">CameraController? _controller;</div>
+                        <div style="margin-left: 15px; color: #f472b6;">Future&lt;void&gt; initialize() async {</div>
+                        <div style="margin-left: 30px; color: #a78bfa;">_controller = CameraController(...);</div>
+                        <div style="margin-left: 30px; color: #e879f9;">await _controller!.initialize();</div>
+                        <div style="margin-left: 15px; color: #f472b6;">}</div>
+                        <div style="color: #ffcc01;">}</div>
+                    </div>
+                    <!-- Chat Widget Preview -->
+                    <div class="mockup-item chat glass-panel">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <div style="width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></div>
+                            <span style="font-size: 0.75rem; text-transform: uppercase; color: #aaa;">Aditya AI Bot</span>
+                        </div>
+                        <div style="font-size: 0.85rem; color: #f3f4f6;" id="dyn-mock-chat-bubble">"Hi! I can share Aditya's experience in full-stack dev and AI. What would you like to know?"</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="glow-aura" style="bottom: 5%; right: 5%;"></div>
+        <div class="about-container">
+            <div class="about-visual reveal-item">
+                <div class="project-media-gradient" style="height: 100%;">
+                    <div style="text-align: center;">
+                        <i class="fa-solid fa-brain" style="font-size: 6rem; color: var(--color-accent); margin-bottom: 1rem; animation: floatParticle 8s infinite alternate ease-in-out;"></i>
+                        <h4 style="font-family: var(--font-heading); color: #fff;">INNOVATION MATTERS</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="about-text reveal-item" style="transition-delay: 0.2s;">
+                <span class="section-label">Our Story</span>
+                <h2 class="section-title">THE VISION<br>BEHIND THE CODE</h2>
+                <div id="dyn-about-desc">
+                    <p>
+                        I design and implement custom digital applications that combine functional efficiency with premium visual appeal. My expertise spans mobile development via Flutter (integrating device hardware and local storage solutions) and advanced AI pipelines (utilizing Large Language Model APIs for custom reasoning tasks).
+                    </p>
+                    <p>
+                        Inspired by premium digital agency philosophies, I prioritize high performance, micro-interactions, responsive structures, and strong typographic layout. Every system I build is structured for scalability and long-term search accessibility.
+                    </p>
+                </div>
+                <div class="highlight-box">
+                    <p id="dyn-about-quote">"The code we design today builds the foundations for the automated platforms of tomorrow."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="section-header reveal-item">
+            <span class="section-label">Expertise</span>
+            <h2 class="section-title">CORE CAPABILITIES</h2>
+        </div>
+        <div class="services-grid">
+            <!-- Service 1 -->
+            <div class="service-card glass-panel reveal-item">
+                <div>
+                    <div class="icon"><i class="fa-solid fa-microchip"></i></div>
+                    <h3>AI & Intelligent Systems</h3>
+                    <p>Building customized Retrieval-Augmented Generation (RAG) engines, embedding search pipelines, and integrating live Google Gemini configurations to drive automated agent tasks.</p>
+                </div>
+                <a href="#contact" class="read-more">Work Together</a>
+            </div>
+            
+            <!-- Service 2 -->
+            <div class="service-card glass-panel reveal-item" style="transition-delay: 0.1s;">
+                <div>
+                    <div class="icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <h3>Flutter Mobile Apps</h3>
+                    <p>Designing cross-platform native iOS & Android applications with optimized local database architectures, camera service feeds, biometric authentication, and custom animation curves.</p>
+                </div>
+                <a href="#contact" class="read-more">Work Together</a>
+            </div>
+            
+            <!-- Service 3 -->
+            <div class="service-card glass-panel reveal-item" style="transition-delay: 0.2s;">
+                <div>
+                    <div class="icon"><i class="fa-solid fa-code"></i></div>
+                    <h3>Full-Stack Web Apps</h3>
+                    <p>Implementing clean, responsive frontend layouts integrated with secure backend logic, standard session authorizations, fast API routes, and modern rendering engines.</p>
+                </div>
+                <a href="#contact" class="read-more">Work Together</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section" id="process">
+        <div class="section-header reveal-item">
+            <span class="section-label">Roadmap</span>
+            <h2 class="section-title">THE DEV WORKFLOW</h2>
+        </div>
+        <div class="process-container">
+            <!-- Arch Connector SVG -->
+            <svg class="process-road-svg" viewBox="0 0 1200 150">
+                <path d="M 150,80 Q 300,5 450,80 T 750,80 T 1050,80" />
+            </svg>
+            
+            <div class="process-steps">
+                <!-- Step 1 -->
+                <div class="process-step reveal-item">
+                    <div class="step-num-circle">01</div>
+                    <h4>Discovery</h4>
+                    <p>Analyzing requirements, assessing API scopes, and mapping platform architecture.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="process-step reveal-item" style="transition-delay: 0.1s;">
+                    <div class="step-num-circle">02</div>
+                    <h4>Design</h4>
+                    <p>Designing high-contrast styling tokens, layouts, and schema relations.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="process-step reveal-item" style="transition-delay: 0.2s;">
+                    <div class="step-num-circle">03</div>
+                    <h4>Coding</h4>
+                    <p>Developing clean structures, managing application state, and binding API triggers.</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="process-step reveal-item" style="transition-delay: 0.3s;">
+                    <div class="step-num-circle">04</div>
+                    <h4>Launch</h4>
+                    <p>Optimizing load pipelines, running audits, and deploying production code.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Streamlined Projects Section -->
+    <section class="projects-section" id="projects">
+        <div class="section-header reveal-item">
+            <span class="section-label">Featured Work</span>
+            <h2 class="section-title">PROJECT SHOWCASE</h2>
+        </div>
+        
+        <div class="project-showcase reveal-item">
+            <!-- Left Side visual representing Flutter device flow -->
+            <div class="project-showcase-media">
+                <i class="fa-solid fa-camera-retro"></i>
+            </div>
+            
+            <!-- Right Side details -->
+            <div class="project-showcase-details">
+                <div class="project-tags" style="margin-bottom: 1.5rem;">
+                    <span class="project-tag">Flutter</span>
+                    <span class="project-tag">Dart</span>
+                    <span class="project-tag">Computer Vision</span>
+                    <span class="project-tag">Tensorflow Lite</span>
+                </div>
+                <h3 id="dyn-project-title">EmotionAI App</h3>
+                <p id="dyn-project-desc">
+                    A native Flutter application integrated with a localized camera feed controller to evaluate facial features and process emotion classifications in real time. It binds hardware camera streams, handles frame buffers efficiently, and uses optimized inference files for local predictions.
+                </p>
+                
+                <!-- 2x2 Features Grid -->
+                <div class="project-features-grid">
+                    <div class="feature-item">
+                        <i class="fa-solid fa-camera"></i>
+                        <div>
+                            <h5>Stream Controller</h5>
+                            <p>Manages resolution settings, frame buffers, and camera rotations.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-bolt"></i>
+                        <div>
+                            <h5>Local Classifier</h5>
+                            <p>Runs offline inferences on local frame segments at 30 FPS.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-database"></i>
+                        <div>
+                            <h5>History Cache</h5>
+                            <p>Stores and retrieves session metrics inside an SQLite db.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-display"></i>
+                        <div>
+                            <h5>Reactive Interface</h5>
+                            <p>Updates overlays and graphs dynamically based on readings.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="#contact" class="btn-primary">Discuss Project</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="section-header reveal-item">
+            <span class="section-label">Questions</span>
+            <h2 class="section-title">FREQUENTLY ASKED</h2>
+        </div>
+        <div class="faq-container reveal-item">
+            <div class="faq-list">
+                <!-- FAQ 1 -->
+                <div class="faq-item">
+                    <button class="faq-question-btn" aria-expanded="false">
+                        What technologies do you specialize in?
+                        <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            I specialize in cross-platform mobile systems built with Flutter (Dart), frontend interfaces using modern HTML, JavaScript, and Vanilla CSS, and backend systems structured around Node.js and AI APIs such as Google Gemini.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FAQ 2 -->
+                <div class="faq-item">
+                    <button class="faq-question-btn" aria-expanded="false">
+                        Can you build custom AI chatbots?
+                        <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes. I design custom client-side chatbots capable of running on pre-set knowledge parameters or connecting directly to live LLM systems via API channels to answer client inquiries interactively.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="faq-item">
+                    <button class="faq-question-btn" aria-expanded="false">
+                        How do you approach mobile camera integrations?
+                        <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            I implement native camera controllers inside Flutter using platform service layers. This setup handles resolution configurations, stream buffers, and connects with classification models for real-time evaluations.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="faq-item">
+                    <button class="faq-question-btn" aria-expanded="false">
+                        How can I plug in my Gemini API key?
+                        <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            The portfolio chatbot features a settings panel (the gear icon on the header). Open the panel, insert your Google Gemini API key, and the bot will transition from pre-configured RAG replies to a live AI model conversational experience. Your key is stored securely in your browser's localStorage.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="contact-grid">
+            <div class="contact-info reveal-item">
+                <span class="section-label">Get in Touch</span>
+                <h2>LET'S BUILD<br>SOMETHING</h2>
+                <p>Have an upcoming mobile app, AI implementation, or premium website project? Drop me a message and let's get started.</p>
+                
+                <div class="info-details">
+                    <div class="info-item">
+                        <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <h4>Email</h4>
+                            <p>info@aditya.dev</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Gujarat, India</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form class="contact-form glass-panel reveal-item" id="inquiry-form" style="transition-delay: 0.15s;">
+                <div class="form-group">
+                    <input type="text" id="form-name" class="form-input" placeholder=" " required>
+                    <label for="form-name" class="form-label">Your Name</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="form-email" class="form-input" placeholder=" " required>
+                    <label for="form-email" class="form-label">Your Email</label>
+                </div>
+                <div class="form-group">
+                    <textarea id="form-message" class="form-input" placeholder=" " required></textarea>
+                    <label for="form-message" class="form-label">Message</label>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; text-align: center; border: none; cursor: pointer;">Send Inquiry</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <a href="#" class="footer-logo">ADITYA<span>.</span></a>
+            <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+                <a href="admin.html" class="footer-link" style="color: var(--color-accent); text-decoration: none; font-weight: 700; font-size: 0.95rem;"><i class="fa-solid fa-lock" style="margin-right: 5px;"></i> Admin Panel</a>
+                <div class="footer-socials">
+                    <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
+            </div>
+            <p class="footer-copy">&copy; 2026 Aditya. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Chatbot Floating Widget -->
+    <div class="chatbot-widget" id="chatbot-widget">
+        <!-- Chat Panel -->
+        <div class="chatbot-panel" id="chatbot-panel">
+            <!-- Header -->
+            <div class="chat-header">
+                <div class="chat-bot-info">
+                    <div class="bot-avatar">A</div>
+                    <div>
+                        <h3>Aditya AI</h3>
+                        <div class="chat-bot-status" id="bot-status-text">Active (Offline Mode)</div>
+                    </div>
+                </div>
+                <div class="chat-header-actions">
+                    <button id="chat-settings-btn" title="AI Settings"><i class="fa-solid fa-gear"></i></button>
+                </div>
+            </div>
+            
+            <!-- Messages Log Tab -->
+            <div class="chat-tab-content" id="chat-messages-tab">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message bot" id="dyn-chatbot-greeting">
+                        Hi! I am Aditya's AI Assistant. I can tell you about his projects (like the Camera Service inside EmotionAI), skills, workflow, or contact details. Ask me anything!
+                    </div>
+                </div>
+                
+                <!-- Quick replies suggestions chip tray -->
+                <div class="chat-suggestions">
+                    <div class="suggestion-chip" data-query="Tell me about EmotionAI">Tell me about EmotionAI</div>
+                    <div class="suggestion-chip" data-query="What are your coding skills?">What are your coding skills?</div>
+                    <div class="suggestion-chip" data-query="How can I hire you?">How can I hire you?</div>
+                    <div class="suggestion-chip" data-query="What is your development process?">What is your process?</div>
+                </div>
+                
+                <!-- Input container -->
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Type a message...">
+                    <button class="chat-send-btn" id="chat-send-btn" aria-label="Send Message">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Settings panel tab -->
+            <div class="chat-tab-content chat-settings" id="chat-settings-tab" style="display: none;">
+                <div class="settings-group">
+                    <label for="gemini-key">Gemini API Key</label>
+                    <input type="password" id="gemini-key" placeholder="Enter API Key...">
+                    <p>Enter your Google Gemini API key to activate live generative replies. Your key is stored locally in your browser.</p>
+                    <p><a href="https://aistudio.google.com/" target="_blank" rel="noopener">Get a free key here <i class="fa-solid fa-up-right-from-square" style="font-size: 0.75rem;"></i></a></p>
+                </div>
+                
+                <div style="flex: 1;"></div>
+                
+                <div class="settings-group" style="flex-direction: row; gap: 0.8rem;">
+                    <button class="settings-save-btn" id="save-settings-btn" style="flex: 1;">Save Settings</button>
+                    <button class="btn-secondary" id="back-chat-btn" style="padding: 0.8rem; border-radius: 8px;">Back</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Toggle Bubble Button -->
+        <button class="chatbot-bubble" id="chatbot-bubble" aria-label="Open Chatbot">
+            <i class="fa-solid fa-comment-dots"></i>
+        </button>
+    </div>
+
+    <!-- Script File -->
+    <script src="script.js"></script>
+</body>
+</html>
