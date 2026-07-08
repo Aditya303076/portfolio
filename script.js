@@ -920,10 +920,12 @@ function getOfflineReply(input) {
     return "That is a great question! I can provide info about Aditya's skills, development workflow, Flutter camera projects, or email contacts.";
 }
 
-// Window Scroll Progress Indicator
+// Window Scroll Progress Indicator & Parallax Custom Property
 window.addEventListener('scroll', () => {
     const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+    
     document.documentElement.style.setProperty('--scroll-progress', `${scrolled}%`);
+    document.documentElement.style.setProperty('--scroll-y', `${winScroll}px`);
 });
