@@ -1,0 +1,19 @@
+# Secure Credentials
+gemini_key.txt
+
+# Local Vector Databases
+rag_index.json
+
+# Environment Variables
+.env
+.env.*
+
+# Local Node / Package files
+node_modules/
+package-lock.json
+
+# IDE Configs & OS Cache
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

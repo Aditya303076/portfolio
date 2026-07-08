@@ -116,7 +116,7 @@ function renderDynamicContent() {
     // Chatbot assets
     const chatGreetNode = document.getElementById('dyn-chatbot-greeting');
     const chatMockNode = document.getElementById('dyn-mock-chat-bubble');
-    if (chatGreetNode) chatGreetNode.textContent = activeConfig.chatbot.greeting;
+    if (chatGreetNode) chatGreetNode.innerHTML = `<span class="term-prompt">aditya@system:~$</span> ${activeConfig.chatbot.greeting}`;
     if (chatMockNode) chatMockNode.textContent = activeConfig.chatbot.mockText;
 }
 
@@ -125,13 +125,17 @@ loadPortfolioConfig();
 
 
 // ==========================================================================
-// BACKGROUND CANVAS PARTICLES SYSTEM
+// BACKGROUND CANVAS COORDINATE GRID & PARTICLES SYSTEM
 // ==========================================================================
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 
 let particles = [];
-const particleCount = 40;
+const particleCount = 25;
+let activeGridEffect = true;
+let mouseX = -1000;
+let mouseY = -1000;
+let isMouseOnScreen = false;
 
 function resizeCanvas() {
     if (canvas) {
@@ -141,6 +145,16 @@ function resizeCanvas() {
 }
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
+
+window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    isMouseOnScreen = true;
+});
+
+window.addEventListener('mouseleave', () => {
+    isMouseOnScreen = false;
+});
 
 class Particle {
     constructor() {
@@ -153,10 +167,10 @@ class Particle {
             this.x = Math.random() * canvas.width;
             this.y = canvas.height + 20;
         }
-        this.size = Math.random() * 3 + 1;
-        this.speedY = -(Math.random() * 0.8 + 0.2);
-        this.speedX = Math.random() * 0.4 - 0.2;
-        this.opacity = Math.random() * 0.4 + 0.1;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedY = -(Math.random() * 0.4 + 0.1);
+        this.speedX = Math.random() * 0.2 - 0.1;
+        this.opacity = Math.random() * 0.3 + 0.05;
     }
 
     update() {
@@ -173,10 +187,7 @@ class Particle {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 204, 1, ${this.opacity})`;
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = 'rgba(255, 204, 1, 0.5)';
         ctx.fill();
-        ctx.shadowBlur = 0;
     }
 }
 
@@ -198,28 +209,433 @@ function animateParticles() {
 
 function drawGrid() {
     if (!ctx || !canvas) return;
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.015)';
-    ctx.lineWidth = 1;
-    const size = 60;
+    const width = canvas.width;
+    const height = canvas.height;
     
-    for (let x = 0; x < canvas.width; x += size) {
+    // Technical grid spacing
+    const size = 70;
+    
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.008)';
+    ctx.lineWidth = 1;
+    
+    // Draw vertical lines
+    for (let x = 0; x < width; x += size) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
+        ctx.lineTo(x, height);
         ctx.stroke();
     }
     
-    for (let y = 0; y < canvas.height; y += size) {
+    // Draw horizontal lines
+    for (let y = 0; y < height; y += size) {
         ctx.beginPath();
         ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
+        ctx.lineTo(width, y);
         ctx.stroke();
+    }
+    
+    // Interactive mouse coordinate tracking
+    if (isMouseOnScreen && activeGridEffect) {
+        // Subtle axis alignment lines
+        ctx.strokeStyle = 'rgba(255, 204, 1, 0.015)';
+        ctx.beginPath();
+        ctx.moveTo(mouseX, 0);
+        ctx.lineTo(mouseX, height);
+        ctx.moveTo(0, mouseY);
+        ctx.lineTo(width, mouseY);
+        ctx.stroke();
+        
+        // Digital scope reticle
+        ctx.strokeStyle = 'rgba(255, 204, 1, 0.1)';
+        ctx.beginPath();
+        ctx.arc(mouseX, mouseY, 10, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        // Render current coordinate coordinates label
+        ctx.fillStyle = 'rgba(255, 204, 1, 0.3)';
+        ctx.font = '9px monospace';
+        ctx.fillText(`SYS.LOC // [${Math.floor(mouseX)}px, ${Math.floor(mouseY)}px]`, mouseX + 15, mouseY - 12);
+        
+        // Highlight grid points nearby
+        const range = 180;
+        const startX = Math.floor((mouseX - range) / size) * size;
+        const endX = Math.floor((mouseX + range) / size) * size;
+        const startY = Math.floor((mouseY - range) / size) * size;
+        const endY = Math.floor((mouseY + range) / size) * size;
+        
+        for (let x = startX; x <= endX; x += size) {
+            for (let y = startY; y <= endY; y += size) {
+                const dist = Math.hypot(x - mouseX, y - mouseY);
+                if (dist < range) {
+                    const intensity = (1 - dist / range);
+                    ctx.fillStyle = `rgba(255, 204, 1, ${intensity * 0.35})`;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Outer pulse overlay
+                    ctx.fillStyle = `rgba(255, 204, 1, ${intensity * 0.1})`;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
     }
 }
 
 if (canvas && ctx) {
     animateParticles();
 }
+
+// ==========================================================================
+// TECHNICAL INTERACTIVE COMPONENT UTILITIES
+// ==========================================================================
+
+// Global Notification Toast
+function showNotification(msg) {
+    let container = document.getElementById('tech-toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'tech-toast-container';
+        container.className = 'tech-toast-container';
+        document.body.appendChild(container);
+    }
+    
+    const toast = document.createElement('div');
+    toast.className = 'tech-toast glass-panel';
+    toast.innerHTML = `<i class="fa-solid fa-microchip"></i> <span>${msg}</span>`;
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 50);
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+    }, 3200);
+}
+
+// Metrics Counting Up Animation
+function initMetricCounters() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+                entry.target.classList.add('counted');
+                animateCounter(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    document.querySelectorAll('.metric-card h3').forEach(item => {
+        observer.observe(item);
+    });
+}
+
+function animateCounter(el) {
+    const rawText = el.textContent;
+    const numMatch = rawText.match(/\d+/);
+    if (!numMatch) return;
+    
+    const targetVal = parseInt(numMatch[0]);
+    const suffix = rawText.replace(numMatch[0], '');
+    
+    let startVal = 0;
+    const duration = 1200;
+    const startTime = performance.now();
+    
+    function updateCounter(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = progress * (2 - progress); // easeOutQuad
+        
+        el.textContent = Math.floor(eased * targetVal) + suffix;
+        
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        } else {
+            el.textContent = targetVal + suffix;
+        }
+    }
+    requestAnimationFrame(updateCounter);
+}
+
+// 3D Perspective Card Tilt Rotations
+function initCardTilts() {
+    const tiltItems = document.querySelectorAll('.service-card, .project-showcase, .architecture-diagram, .chatbot-panel');
+    tiltItems.forEach(item => {
+        item.addEventListener('mousemove', (e) => {
+            const rect = item.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = ((centerY - y) / centerY) * 5; // max 5 degrees
+            const rotateY = ((x - centerX) / centerX) * 5; 
+            
+            item.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
+            item.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
+            item.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
+        });
+        
+        item.addEventListener('mouseleave', () => {
+            item.style.transform = '';
+            item.style.setProperty('--mouse-x', '50%');
+            item.style.setProperty('--mouse-y', '50%');
+        });
+    });
+}
+
+// Command Palette Keyboard Search Controls (Ctrl + K)
+function initCommandPalette() {
+    const cmdPalette = document.getElementById('cmd-palette');
+    const cmdInput = document.getElementById('cmd-palette-input');
+    const cmdSuggestions = document.getElementById('cmd-palette-suggestions');
+    const cmdResults = document.getElementById('cmd-palette-results');
+    const cmdCloseBtn = document.getElementById('cmd-close-btn');
+    const navCmdBtn = document.getElementById('nav-cmd-btn');
+    
+    if (!cmdPalette) return;
+    
+    let activeIndex = -1;
+    let visibleItems = [];
+
+    function openPalette() {
+        cmdPalette.classList.add('active');
+        cmdPalette.setAttribute('aria-hidden', 'false');
+        setTimeout(() => cmdInput.focus(), 50);
+        resetSearch();
+    }
+    
+    function closePalette() {
+        cmdPalette.classList.remove('active');
+        cmdPalette.setAttribute('aria-hidden', 'true');
+    }
+    
+    function resetSearch() {
+        cmdInput.value = '';
+        cmdSuggestions.style.display = 'block';
+        cmdResults.style.display = 'none';
+        activeIndex = -1;
+        updateSelection();
+    }
+    
+    window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+            e.preventDefault();
+            if (cmdPalette.classList.contains('active')) {
+                closePalette();
+            } else {
+                openPalette();
+            }
+        }
+        
+        if (e.key === 'Escape' && cmdPalette.classList.contains('active')) {
+            closePalette();
+        }
+    });
+    
+    if (navCmdBtn) navCmdBtn.addEventListener('click', openPalette);
+    if (cmdCloseBtn) cmdCloseBtn.addEventListener('click', closePalette);
+    
+    cmdPalette.addEventListener('click', (e) => {
+        if (e.target === cmdPalette) closePalette();
+    });
+    
+    cmdInput.addEventListener('input', () => {
+        const query = cmdInput.value.trim().toLowerCase();
+        if (!query) {
+            cmdSuggestions.style.display = 'block';
+            cmdResults.style.display = 'none';
+            activeIndex = -1;
+            return;
+        }
+        
+        cmdSuggestions.style.display = 'none';
+        cmdResults.style.display = 'block';
+        
+        const allItems = Array.from(cmdSuggestions.querySelectorAll('.cmd-item'));
+        cmdResults.innerHTML = '';
+        
+        const filtered = allItems.filter(item => {
+            const text = item.textContent.toLowerCase();
+            const shortcut = item.querySelector('.cmd-shortcut') ? item.querySelector('.cmd-shortcut').textContent.toLowerCase() : '';
+            return text.includes(query) || shortcut.includes(query);
+        });
+        
+        if (filtered.length > 0) {
+            filtered.forEach(item => {
+                const clone = item.cloneNode(true);
+                clone.setAttribute('data-action', item.getAttribute('data-action'));
+                if (item.hasAttribute('data-target')) {
+                    clone.setAttribute('data-target', item.getAttribute('data-target'));
+                }
+                clone.addEventListener('click', () => handleCmdAction(clone));
+                cmdResults.appendChild(clone);
+            });
+        } else {
+            cmdResults.innerHTML = `<div class="cmd-no-results">No options match "${query}"</div>`;
+        }
+        
+        activeIndex = -1;
+        updateSelection();
+    });
+    
+    cmdPalette.addEventListener('keydown', (e) => {
+        if (!cmdPalette.classList.contains('active')) return;
+        
+        const container = cmdResults.style.display === 'block' ? cmdResults : cmdSuggestions;
+        visibleItems = Array.from(container.querySelectorAll('.cmd-item'));
+        
+        if (visibleItems.length === 0) return;
+        
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            activeIndex = (activeIndex + 1) % visibleItems.length;
+            updateSelection();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            activeIndex = (activeIndex - 1 + visibleItems.length) % visibleItems.length;
+            updateSelection();
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (activeIndex >= 0 && activeIndex < visibleItems.length) {
+                handleCmdAction(visibleItems[activeIndex]);
+            }
+        }
+    });
+    
+    function updateSelection() {
+        visibleItems.forEach((item, idx) => {
+            if (idx === activeIndex) {
+                item.classList.add('selected');
+                item.scrollIntoView({ block: 'nearest' });
+            } else {
+                item.classList.remove('selected');
+            }
+        });
+    }
+    
+    cmdSuggestions.querySelectorAll('.cmd-item').forEach(item => {
+        item.addEventListener('click', () => handleCmdAction(item));
+    });
+    
+    function handleCmdAction(item) {
+        const action = item.getAttribute('data-action');
+        const target = item.getAttribute('data-target');
+        
+        closePalette();
+        
+        if (action === 'nav') {
+            const section = document.getElementById(target);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+                history.pushState(null, null, `#${target}`);
+            }
+        } else if (action === 'chat') {
+            if (chatbotWidget && chatInput) {
+                chatbotWidget.classList.add('active');
+                if (target === 'hello') {
+                    chatInput.focus();
+                } else {
+                    chatInput.value = target;
+                    handleUserSend();
+                }
+            }
+        } else if (action === 'admin') {
+            window.location.href = 'admin.html';
+        } else if (action === 'grid') {
+            activeGridEffect = !activeGridEffect;
+            showNotification(activeGridEffect ? 'Interactive tracking grid activated' : 'Background grid deactivated');
+        }
+    }
+}
+
+// Live Scanning Dashboard Simulator (Featured Project Card)
+function initScannerMock() {
+    const scanEmotion = document.getElementById('scan-val-emotion');
+    const scanPercent = document.getElementById('scan-val-percent');
+    if (!scanEmotion || !scanPercent) return;
+    
+    const moods = ['FOCUSED', 'CREATIVE', 'ENGAGED', 'CALCULATING', 'INNOVATING', 'ACTIVE'];
+    
+    setInterval(() => {
+        const mood = moods[Math.floor(Math.random() * moods.length)];
+        const confidence = (Math.random() * 4 + 95.8).toFixed(2);
+        
+        scanEmotion.textContent = mood;
+        scanPercent.textContent = `${confidence}%`;
+        
+        // Randomize coordinates and metrics in log screen
+        const debugLogs = document.querySelectorAll('.scanner-debug-panel .debug-log-line');
+        if (debugLogs.length >= 5) {
+            const rx = Math.floor(Math.random() * 150 + 420);
+            const ry = Math.floor(Math.random() * 100 + 150);
+            debugLogs[3].textContent = `> target_coordinates: x[${rx}] y[${ry}]`;
+            
+            const rTime = Math.floor(Math.random() * 7 + 8);
+            debugLogs[4].textContent = `> response_delay: ${rTime}ms`;
+        }
+    }, 2800);
+}
+
+// Active Navbar Item Scroll Highlighting
+function initActiveSectionObserver() {
+    const sections = document.querySelectorAll('section');
+    const links = document.querySelectorAll('.nav-links a');
+    
+    if (sections.length === 0 || links.length === 0) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                links.forEach(l => {
+                    if (l.getAttribute('href') === `#${id}`) {
+                        l.classList.add('active');
+                    } else {
+                        l.classList.remove('active');
+                    }
+                });
+            }
+        });
+    }, {
+        root: null,
+        rootMargin: '-55% 0px -45% 0px'
+    });
+    
+    sections.forEach(s => observer.observe(s));
+}
+
+// Copy Contact Email to Clipboard
+function initCopyEmail() {
+    const copyBtn = document.getElementById('copy-email-btn');
+    if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            const email = 'info@aditya.dev';
+            navigator.clipboard.writeText(email)
+                .then(() => {
+                    showNotification('Email address copied to clipboard');
+                })
+                .catch(err => {
+                    console.error('Clipboard copy failed: ', err);
+                });
+        });
+    }
+}
+
+// Bind all technical components on DOM load
+document.addEventListener('DOMContentLoaded', () => {
+    initMetricCounters();
+    initCardTilts();
+    initCommandPalette();
+    initScannerMock();
+    initActiveSectionObserver();
+    initCopyEmail();
+});
 
 // ==========================================================================
 // SCROLL REVEAL ANIMATIONS (Intersection Observer)
@@ -325,29 +741,10 @@ const chatInput = document.getElementById('chat-input');
 const chatSendBtn = document.getElementById('chat-send-btn');
 const botStatusText = document.getElementById('bot-status-text');
 
-// Settings Tab Elements
-const chatSettingsBtn = document.getElementById('chat-settings-btn');
-const chatMessagesTab = document.getElementById('chat-messages-tab');
-const chatSettingsTab = document.getElementById('chat-settings-tab');
-const geminiKeyInput = document.getElementById('gemini-key');
-const saveSettingsBtn = document.getElementById('save-settings-btn');
-const backChatBtn = document.getElementById('back-chat-btn');
-
-// Suggestion Chips
-const suggestionChips = document.querySelectorAll('.suggestion-chip');
-
-// Hero button trigger connection
-const heroChatBtn = document.getElementById('hero-chat-btn');
-if (heroChatBtn && chatbotWidget && chatInput) {
-    heroChatBtn.addEventListener('click', () => {
-        chatbotWidget.classList.add('active');
-        chatInput.focus();
-    });
-}
-
 // Toggle chatbot panel open/close
 if (chatbotBubble && chatbotWidget && chatInput) {
-    chatbotBubble.addEventListener('click', () => {
+    chatbotBubble.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent document click handler from instantly firing
         chatbotWidget.classList.toggle('active');
         if (chatbotWidget.classList.contains('active')) {
             chatInput.focus();
@@ -355,50 +752,41 @@ if (chatbotBubble && chatbotWidget && chatInput) {
     });
 }
 
-// Toggle Settings screen
-if (chatSettingsBtn && chatMessagesTab && chatSettingsTab) {
-    chatSettingsBtn.addEventListener('click', () => {
-        chatMessagesTab.style.display = 'none';
-        chatSettingsTab.style.display = 'flex';
-    });
-}
-
-if (backChatBtn && chatSettingsTab && chatMessagesTab) {
-    backChatBtn.addEventListener('click', () => {
-        chatSettingsTab.style.display = 'none';
-        chatMessagesTab.style.display = 'flex';
-    });
-}
-
-// Save Gemini API key
-if (saveSettingsBtn && geminiKeyInput && botStatusText && chatSettingsTab && chatMessagesTab) {
-    saveSettingsBtn.addEventListener('click', () => {
-        const key = geminiKeyInput.value.trim();
-        if (key) {
-            localStorage.setItem('gemini_api_key', key);
-            botStatusText.textContent = "Active (Gemini Live)";
-            addBotMessage("Gemini API connection activated! I'm now running on live generative intelligence. Ask me anything.");
-        } else {
-            localStorage.removeItem('gemini_api_key');
-            botStatusText.textContent = "Active (Offline Mode)";
-            addBotMessage("Settings updated. Live API key removed. Returning to client-side offline mode.");
+// Close chatbot when clicking outside of it
+document.addEventListener('click', (e) => {
+    if (chatbotWidget && chatbotWidget.classList.contains('active')) {
+        if (!chatbotWidget.contains(e.target)) {
+            const isHeroBtn = heroChatBtn && heroChatBtn.contains(e.target);
+            const isCmdBtn = document.getElementById('nav-cmd-btn') && document.getElementById('nav-cmd-btn').contains(e.target);
+            if (!isHeroBtn && !isCmdBtn) {
+                chatbotWidget.classList.remove('active');
+            }
         }
-        chatSettingsTab.style.display = 'none';
-        chatMessagesTab.style.display = 'flex';
-    });
-}
+    }
+});
 
-// Check for existing API key on load
-if (geminiKeyInput && botStatusText) {
-    const storedKey = localStorage.getItem('gemini_api_key');
-    if (storedKey) {
-        geminiKeyInput.value = storedKey;
-        botStatusText.textContent = "Active (Gemini Live)";
+// Update chatbot connection status indicators from backend
+async function checkBackendGeminiStatus() {
+    try {
+        const res = await fetch('/api/get_gemini_status');
+        if (res.ok) {
+            const data = await res.json();
+            if (botStatusText) {
+                if (data.status === 'configured') {
+                    botStatusText.textContent = "Active (Gemini Live)";
+                } else {
+                    botStatusText.textContent = "Active (Offline RAG Mode)";
+                }
+            }
+        }
+    } catch(e) {
+        if (botStatusText) botStatusText.textContent = "Offline (Local)";
     }
 }
+checkBackendGeminiStatus();
 
 // Send messages actions
-function handleUserSend() {
+async function handleUserSend() {
     if (!chatInput) return;
     const text = chatInput.value.trim();
     if (!text) return;
@@ -408,15 +796,47 @@ function handleUserSend() {
     
     showTypingIndicator();
     
-    const apiKey = localStorage.getItem('gemini_api_key');
-    if (apiKey) {
-        fetchGeminiReply(text, apiKey);
-    } else {
-        setTimeout(() => {
-            hideTypingIndicator();
-            const reply = getOfflineReply(text);
-            addBotMessage(reply);
-        }, 800);
+    try {
+        const formattedHistory = [];
+        const msgElements = chatMessages.querySelectorAll('.message');
+        
+        msgElements.forEach(el => {
+            if (el.id === 'dyn-chatbot-greeting') return;
+            const isBot = el.classList.contains('bot');
+            const contentText = el.innerText.replace(/^(user@client:~\$|aditya@system:~\$)/, '').trim();
+            formattedHistory.push({
+                role: isBot ? "model" : "user",
+                text: contentText
+            });
+        });
+        
+        if (formattedHistory.length > 0 && formattedHistory[formattedHistory.length - 1].role === 'user') {
+            formattedHistory.pop();
+        }
+        
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: text,
+                history: formattedHistory
+            })
+        });
+        
+        hideTypingIndicator();
+        
+        if (response.ok) {
+            const data = await response.json();
+            addBotMessage(data.reply);
+        } else {
+            addBotMessage("Server error executing conversations.");
+        }
+    } catch(err) {
+        console.error("Chat request failed:", err);
+        hideTypingIndicator();
+        addBotMessage("Connection error. Ensure your server is active.");
     }
 }
 
@@ -436,19 +856,8 @@ if (chatSendBtn) {
 suggestionChips.forEach(chip => {
     chip.addEventListener('click', () => {
         const query = chip.getAttribute('data-query');
-        addUserMessage(query);
-        showTypingIndicator();
-        
-        const apiKey = localStorage.getItem('gemini_api_key');
-        if (apiKey) {
-            fetchGeminiReply(query, apiKey);
-        } else {
-            setTimeout(() => {
-                hideTypingIndicator();
-                const reply = getOfflineReply(query);
-                addBotMessage(reply);
-            }, 800);
-        }
+        chatInput.value = query;
+        handleUserSend();
     });
 });
 
@@ -457,7 +866,7 @@ function addUserMessage(text) {
     if (!chatMessages) return;
     const msg = document.createElement('div');
     msg.className = 'message user';
-    msg.textContent = text;
+    msg.innerHTML = `<span class="term-prompt">user@client:~$</span> ${text}`;
     chatMessages.appendChild(msg);
     scrollChat();
 }
@@ -466,7 +875,7 @@ function addBotMessage(text) {
     if (!chatMessages) return;
     const msg = document.createElement('div');
     msg.className = 'message bot';
-    msg.textContent = text;
+    msg.innerHTML = `<span class="term-prompt">aditya@system:~$</span> ${text}`;
     chatMessages.appendChild(msg);
     scrollChat();
 }
@@ -508,72 +917,13 @@ function getOfflineReply(input) {
         }
     }
     
-    return "That is a great question! I can provide info about Aditya's skills, development workflow, Flutter camera projects, or email contacts. Or, enter your Gemini API key in the settings tab (gear icon) to enable live generative AI conversation!";
+    return "That is a great question! I can provide info about Aditya's skills, development workflow, Flutter camera projects, or email contacts.";
 }
 
-// Conversation context history array
-let conversationHistory = [];
-
-// Gemini API Live fetch call
-async function fetchGeminiReply(userMessage, apiKey) {
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-    
-    conversationHistory.push({
-        role: "user",
-        parts: [{ text: userMessage }]
-    });
-
-    const requestData = {
-        contents: conversationHistory,
-        systemInstruction: {
-            parts: [{ 
-                text: `You are Aditya AI, representing Aditya. Here is your profile data:
-                       Name: ${activeConfig.profile.name}
-                       Role: ${activeConfig.profile.label}
-                       About: ${activeConfig.profile.about.replace(/<[^>]*>/g, '')}
-                       Project details: ${activeConfig.project.title} - ${activeConfig.project.desc}
-                       Always answer queries politely and professionally. Keep answers under 3 sentences max. If they ask about other projects, state that he specializes in native ML apps like ${activeConfig.project.title}.`
-            }]
-        }
-    };
-
-    try {
-        const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestData)
-        });
-
-        hideTypingIndicator();
-
-        if (!response.ok) {
-            console.error("Gemini request failed");
-            addBotMessage("I encountered an error communicating with Gemini API. Falling back to offline context: " + getOfflineReply(userMessage));
-            conversationHistory.pop();
-            return;
-        }
-
-        const data = await response.json();
-        const botReply = data.candidates[0].content.parts[0].text;
-        
-        addBotMessage(botReply);
-        
-        conversationHistory.push({
-            role: "model",
-            parts: [{ text: botReply }]
-        });
-        
-        if (conversationHistory.length > 10) {
-            conversationHistory.shift();
-            conversationHistory.shift();
-        }
-
-    } catch (err) {
-        console.error("Network request failed:", err);
-        hideTypingIndicator();
-        addBotMessage("A network error occurred. Falling back to offline context: " + getOfflineReply(userMessage));
-        conversationHistory.pop();
-    }
-}
+// Window Scroll Progress Indicator
+window.addEventListener('scroll', () => {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+    document.documentElement.style.setProperty('--scroll-progress', `${scrolled}%`);
+});

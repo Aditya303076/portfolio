@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="style.css">
     
     <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -31,6 +31,7 @@
                 <li><a href="#process">Process</a></li>
                 <li><a href="#projects">Work</a></li>
                 <li><a href="#faq">FAQ</a></li>
+                <li><button id="nav-cmd-btn" class="nav-cmd-btn" title="Open Command Palette (Ctrl+K)"><i class="fa-solid fa-terminal"></i> <span class="kbd-hint">Ctrl K</span></button></li>
                 <li><a href="#contact" class="btn-secondary" style="padding: 0.5rem 1.2rem; font-size: 0.9rem;">Contact</a></li>
             </ul>
             <button class="mobile-menu-btn" aria-label="Toggle Menu" id="mobile-menu-btn">
@@ -102,11 +103,47 @@
         <div class="glow-aura" style="bottom: 5%; right: 5%;"></div>
         <div class="about-container">
             <div class="about-visual reveal-item">
-                <div class="project-media-gradient" style="height: 100%;">
-                    <div style="text-align: center;">
-                        <i class="fa-solid fa-brain" style="font-size: 6rem; color: var(--color-accent); margin-bottom: 1rem; animation: floatParticle 8s infinite alternate ease-in-out;"></i>
-                        <h4 style="font-family: var(--font-heading); color: #fff;">INNOVATION MATTERS</h4>
-                    </div>
+                <div class="architecture-diagram glass-panel">
+                    <div class="diagram-grid"></div>
+                    <svg class="arch-svg" viewBox="0 0 400 300">
+                        <!-- Connection Lines -->
+                        <g class="conn-lines">
+                            <!-- Flutter to SQL -->
+                            <path d="M 100 80 L 100 220" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" stroke-dasharray="4 4" />
+                            <!-- Flutter to LLM -->
+                            <path d="M 100 80 L 300 80" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" stroke-dasharray="4 4" />
+                            <!-- SQL to RAG -->
+                            <path d="M 100 220 L 300 220" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" stroke-dasharray="4 4" />
+                            <!-- RAG to LLM -->
+                            <path d="M 300 220 L 300 80" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" stroke-dasharray="4 4" />
+                        </g>
+                        
+                        <!-- Flow animation circles -->
+                        <circle class="flow-dot f-to-l" cx="100" cy="80" r="3.5" fill="var(--color-accent)" />
+                        <circle class="flow-dot s-to-r" cx="100" cy="220" r="3.5" fill="var(--color-accent-blue)" />
+                        
+                        <!-- Node Flutter -->
+                        <g class="diagram-node node-flutter" transform="translate(100, 80)">
+                            <rect x="-45" y="-20" width="90" height="40" rx="8" fill="rgba(11, 12, 19, 0.9)" stroke="rgba(255, 204, 1, 0.2)" stroke-width="1.5" />
+                            <text x="0" y="5" font-family="var(--font-body)" font-weight="700" font-size="9" fill="#f3f4f6" text-anchor="middle">FLUTTER MOBILE</text>
+                        </g>
+                        <!-- Node SQLite -->
+                        <g class="diagram-node" transform="translate(100, 220)">
+                            <rect x="-45" y="-20" width="90" height="40" rx="8" fill="rgba(11, 12, 19, 0.9)" stroke="rgba(255, 255, 255, 0.06)" stroke-width="1.5" />
+                            <text x="0" y="5" font-family="var(--font-body)" font-weight="500" font-size="9" fill="#9ca3af" text-anchor="middle">SQLITE CACHE</text>
+                        </g>
+                        <!-- Node Gemini LLM -->
+                        <g class="diagram-node node-gemini" transform="translate(300, 80)">
+                            <rect x="-45" y="-20" width="90" height="40" rx="8" fill="rgba(11, 12, 19, 0.9)" stroke="var(--color-accent)" stroke-width="1.5" />
+                            <text x="0" y="5" font-family="var(--font-body)" font-weight="700" font-size="9" fill="#f3f4f6" text-anchor="middle">GEMINI AGENT</text>
+                        </g>
+                        <!-- Node RAG -->
+                        <g class="diagram-node" transform="translate(300, 220)">
+                            <rect x="-45" y="-20" width="90" height="40" rx="8" fill="rgba(11, 12, 19, 0.9)" stroke="rgba(255, 255, 255, 0.06)" stroke-width="1.5" />
+                            <text x="0" y="5" font-family="var(--font-body)" font-weight="500" font-size="9" fill="#9ca3af" text-anchor="middle">RAG INDEX</text>
+                        </g>
+                    </svg>
+                    <div class="diagram-label">SYSTEM DATAFLOW ARCHITECTURE</div>
                 </div>
             </div>
             <div class="about-text reveal-item" style="transition-delay: 0.2s;">
@@ -216,8 +253,39 @@
         
         <div class="project-showcase reveal-item">
             <!-- Left Side visual representing Flutter device flow -->
-            <div class="project-showcase-media">
-                <i class="fa-solid fa-camera-retro"></i>
+            <div class="project-showcase-media glass-panel">
+                <div class="scanner-container">
+                    <div class="scanner-grid"></div>
+                    <div class="scanner-camera-feed">
+                        <!-- Technical Scanning Vector -->
+                        <svg class="scanner-face-vector" viewBox="0 0 100 100">
+                            <path class="face-outline" d="M 25 35 C 25 20, 75 20, 75 35 C 75 55, 65 75, 50 85 C 35 75, 25 55, 25 35 Z" fill="none" stroke="rgba(255, 204, 1, 0.15)" stroke-width="1.2" />
+                            <path class="face-eye-l" d="M 38 42 Q 43 38, 48 42" fill="none" stroke="var(--color-accent)" stroke-width="1.5" />
+                            <path class="face-eye-r" d="M 52 42 Q 57 38, 62 42" fill="none" stroke="var(--color-accent)" stroke-width="1.5" />
+                            <path class="face-mouth" d="M 40 62 Q 50 68, 60 62" fill="none" stroke="rgba(255, 204, 1, 0.4)" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                        
+                        <!-- Scanning Box overlay with details -->
+                        <div class="scanner-bounding-box">
+                            <span class="corner top-left"></span>
+                            <span class="corner top-right"></span>
+                            <span class="corner bottom-left"></span>
+                            <span class="corner bottom-right"></span>
+                            <div class="scanner-tag">EMOTION: <span id="scan-val-emotion">DETECTING</span> <span id="scan-val-percent">--%</span></div>
+                            <div class="scanner-line"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Live technical debug terminal logs -->
+                    <div class="scanner-debug-panel">
+                        <div class="debug-title">// FPS PIPELINE RUNNING</div>
+                        <div class="debug-log-line">> camera_service.dart initialized</div>
+                        <div class="debug-log-line">> tflite_inference.dart loaded model</div>
+                        <div class="debug-log-line">> output_buffer_rate: 30 FPS</div>
+                        <div class="debug-log-line">> target_coordinates: x[482] y[180]</div>
+                        <div class="debug-log-line">> response_delay: 11ms</div>
+                    </div>
+                </div>
             </div>
             
             <!-- Right Side details -->
@@ -342,11 +410,11 @@
                 <p>Have an upcoming mobile app, AI implementation, or premium website project? Drop me a message and let's get started.</p>
                 
                 <div class="info-details">
-                    <div class="info-item">
+                    <div class="info-item" id="copy-email-btn" title="Click to copy email">
                         <div class="icon"><i class="fa-solid fa-envelope"></i></div>
                         <div>
                             <h4>Email</h4>
-                            <p>info@aditya.dev</p>
+                            <p>info@aditya.dev <i class="fa-regular fa-copy" style="font-size: 0.8rem; margin-left: 5px; opacity: 0.6;"></i></p>
                         </div>
                     </div>
                     <div class="info-item">
@@ -397,18 +465,14 @@
     <div class="chatbot-widget" id="chatbot-widget">
         <!-- Chat Panel -->
         <div class="chatbot-panel" id="chatbot-panel">
-            <!-- Header -->
-            <div class="chat-header">
-                <div class="chat-bot-info">
-                    <div class="bot-avatar">A</div>
-                    <div>
-                        <h3>Aditya AI</h3>
-                        <div class="chat-bot-status" id="bot-status-text">Active (Offline Mode)</div>
-                    </div>
+            <!-- Terminal Header -->
+            <div class="chat-header terminal-header">
+                <div class="terminal-dots">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
                 </div>
-                <div class="chat-header-actions">
-                    <button id="chat-settings-btn" title="AI Settings"><i class="fa-solid fa-gear"></i></button>
-                </div>
+                <div class="terminal-title">aditya-ai@terminal: ~</div>
             </div>
             
             <!-- Messages Log Tab -->
@@ -428,28 +492,12 @@
                 </div>
                 
                 <!-- Input container -->
-                <div class="chat-input-container">
-                    <input type="text" class="chat-input" id="chat-input" placeholder="Type a message...">
-                    <button class="chat-send-btn" id="chat-send-btn" aria-label="Send Message">
+                <div class="chat-input-container terminal-input-container">
+                    <span class="terminal-prompt-char">$</span>
+                    <input type="text" class="chat-input terminal-input" id="chat-input" placeholder="Type command...">
+                    <button class="chat-send-btn terminal-send-btn" id="chat-send-btn" aria-label="Send Message">
                         <i class="fa-solid fa-paper-plane"></i>
                     </button>
-                </div>
-            </div>
-            
-            <!-- Settings panel tab -->
-            <div class="chat-tab-content chat-settings" id="chat-settings-tab" style="display: none;">
-                <div class="settings-group">
-                    <label for="gemini-key">Gemini API Key</label>
-                    <input type="password" id="gemini-key" placeholder="Enter API Key...">
-                    <p>Enter your Google Gemini API key to activate live generative replies. Your key is stored locally in your browser.</p>
-                    <p><a href="https://aistudio.google.com/" target="_blank" rel="noopener">Get a free key here <i class="fa-solid fa-up-right-from-square" style="font-size: 0.75rem;"></i></a></p>
-                </div>
-                
-                <div style="flex: 1;"></div>
-                
-                <div class="settings-group" style="flex-direction: row; gap: 0.8rem;">
-                    <button class="settings-save-btn" id="save-settings-btn" style="flex: 1;">Save Settings</button>
-                    <button class="btn-secondary" id="back-chat-btn" style="padding: 0.8rem; border-radius: 8px;">Back</button>
                 </div>
             </div>
         </div>
@@ -458,6 +506,41 @@
         <button class="chatbot-bubble" id="chatbot-bubble" aria-label="Open Chatbot">
             <i class="fa-solid fa-comment-dots"></i>
         </button>
+    </div>
+
+    <!-- Command Palette Modal -->
+    <div class="cmd-palette" id="cmd-palette" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Command Palette">
+        <div class="cmd-palette-content glass-panel">
+            <div class="cmd-palette-header">
+                <i class="fa-solid fa-magnifying-glass cmd-search-icon"></i>
+                <input type="text" id="cmd-palette-input" placeholder="Type a command or search..." autocomplete="off">
+                <button class="cmd-close-btn" id="cmd-close-btn" aria-label="Close Command Palette"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="cmd-palette-body">
+                <div class="cmd-palette-suggestions" id="cmd-palette-suggestions">
+                    <div class="cmd-group-title">Navigation Shortcuts</div>
+                    <div class="cmd-item" data-action="nav" data-target="about"><i class="fa-solid fa-user"></i> Go to About Section <span class="cmd-shortcut">/about</span></div>
+                    <div class="cmd-item" data-action="nav" data-target="services"><i class="fa-solid fa-gears"></i> Go to Services <span class="cmd-shortcut">/services</span></div>
+                    <div class="cmd-item" data-action="nav" data-target="process"><i class="fa-solid fa-route"></i> Go to Process Roadmap <span class="cmd-shortcut">/process</span></div>
+                    <div class="cmd-item" data-action="nav" data-target="projects"><i class="fa-solid fa-code"></i> Go to Project Showcase <span class="cmd-shortcut">/work</span></div>
+                    <div class="cmd-item" data-action="nav" data-target="faq"><i class="fa-solid fa-circle-question"></i> Go to FAQ <span class="cmd-shortcut">/faq</span></div>
+                    <div class="cmd-item" data-action="nav" data-target="contact"><i class="fa-solid fa-envelope"></i> Go to Contact <span class="cmd-shortcut">/contact</span></div>
+                    
+                    <div class="cmd-group-title">Interactive Tasks</div>
+                    <div class="cmd-item" data-action="chat" data-target="hello"><i class="fa-solid fa-comment"></i> Talk to Aditya AI Chatbot <span class="cmd-shortcut">/chat [msg]</span></div>
+                    <div class="cmd-item" data-action="admin"><i class="fa-solid fa-lock"></i> Open Admin Panel Settings <span class="cmd-shortcut">/admin</span></div>
+                    <div class="cmd-item" data-action="grid"><i class="fa-solid fa-circle-half-stroke"></i> Toggle Spotlight Grid <span class="cmd-shortcut">/grid</span></div>
+                </div>
+                <div class="cmd-palette-results" id="cmd-palette-results" style="display: none;">
+                    <!-- Filtered options display here -->
+                </div>
+            </div>
+            <div class="cmd-palette-footer">
+                <span><kbd>↑↓</kbd> navigate</span>
+                <span><kbd>Enter</kbd> select</span>
+                <span><kbd>Esc</kbd> close</span>
+            </div>
+        </div>
     </div>
 
     <!-- Script File -->
