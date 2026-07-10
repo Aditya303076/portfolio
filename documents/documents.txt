@@ -1,0 +1,16 @@
+Aditya
+Role: AI & Software Engineer (Fresher Graduate)
+Location: Gujarat, India
+Email: info@aditya.dev
+Website: http://localhost:8000/
+
+TECHNICAL CAPABILITIES:
+- Mobile Frameworks: Flutter & Dart, native Android bindings, hardware camera controller widgets.
+- Backend Architecture: Node.js, Express, Python (custom APIs, sockets, static server structures), SQLite databases.
+- Frontend Design: HTML5, Vanilla CSS3 (Glassmorphism design, keyframes animations, CSS custom properties systems), JavaScript (ES6+ async-await loops).
+- Generative AI & RAG: Prompt engineering, Google Gemini API orchestrations, local cosine-similarity retrieval pipelines, sparse TF-IDF text indices.
+
+SIGNATURE ENGINEERING PROJECTS:
+1. EmotionAI Camera Analyzer: A native mobile dashboard with a scanning overlay HUD, pulsing target bounding boxes, real-time analytics streaming at 30 FPS, and microchip diagnostics logging.
+2. Global Command Palette Console: A Ctrl+K keyboard shortcut terminal launcher that lets users jump between section routes (/about, /services, /work), toggle system spotlight grids (/grid), or start chat dialogs (/chat).
+3. Coordinate Spotlights Grid: A mouse-following coordinate scope rendering axes projections and glowing nodes at mathematical grid intersections.

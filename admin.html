@@ -6,31 +6,202 @@
     <title>Aditya Portfolio | Admin Panel</title>
     <link rel="stylesheet" href="style.css">
     <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     
     <style>
-        /* Embedded styling to refine admin panel aesthetics */
+        /* Premium Developer Console Styling System */
+        :root {
+            --color-admin-bg: #090a0f;
+            --color-admin-card: #11131e;
+            --border-admin: 1px solid rgba(255, 204, 1, 0.12);
+        }
+        
+        body {
+            background-color: var(--color-admin-bg) !important;
+        }
+        
+        .admin-container {
+            max-width: 1250px;
+            margin: 6rem auto 4rem auto;
+            gap: 2rem;
+        }
+        
+        /* Login card redesign */
+        .admin-login-wrapper {
+            background: radial-gradient(circle at center, #0f121e 0%, #06070a 100%);
+        }
+        .admin-login-card {
+            background: rgba(18, 20, 30, 0.95);
+            border: 1px solid rgba(255, 204, 1, 0.25) !important;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), var(--shadow-glow);
+            padding: 3.5rem 2.5rem;
+            border-radius: 16px;
+        }
+        
+        .admin-login-card h2 {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 0.8rem;
+            color: var(--color-accent);
+        }
+        
+        .admin-sidebar {
+            background: rgba(18, 20, 30, 0.75);
+            border: var(--border-admin) !important;
+            padding: 2.2rem 1.4rem;
+            border-radius: 14px;
+        }
+        
+        .admin-nav-btn {
+            font-family: monospace;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition-fast);
+            color: var(--color-text-secondary);
+        }
+        
+        .admin-nav-btn:hover {
+            color: var(--color-accent);
+            background: rgba(255, 204, 1, 0.04);
+            transform: translateX(4px);
+        }
+        
+        .admin-nav-btn.active {
+            color: var(--color-accent) !important;
+            background: rgba(255, 204, 1, 0.08) !important;
+            border-left: 2px solid var(--color-accent);
+            border-radius: 0 6px 6px 0;
+            padding-left: calc(1rem - 2px);
+        }
+        
+        .admin-main-panel {
+            background: rgba(18, 20, 30, 0.75);
+            border: var(--border-admin) !important;
+            border-radius: 14px;
+            padding: 2.5rem;
+        }
+        
+        .admin-panel-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 1.2rem;
+        }
+        
+        .admin-panel-header h3 {
+            font-family: monospace;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
+            color: #fff;
+        }
+        
+        /* Form inputs styling */
+        .admin-form-row {
+            grid-template-columns: 140px 1fr;
+            gap: 1.5rem;
+        }
+        
+        .admin-form-row label, .form-row-full label {
+            font-family: monospace;
+            font-size: 0.82rem;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+        
+        .admin-form-input {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #f3f4f6;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            padding: 0.85rem 1.2rem;
+            border-radius: 6px;
+            transition: var(--transition-fast);
+        }
+        
+        .admin-form-input:focus {
+            border-color: var(--color-accent);
+            background: rgba(255, 204, 1, 0.01);
+            box-shadow: 0 0 10px rgba(255, 204, 1, 0.05);
+        }
+        
+        textarea.admin-form-input {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* Code outline for RAG panel */
+        #rag-items-container .glass-panel {
+            background: rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            padding: 1.2rem;
+        }
+        
+        #rag-items-container h5 {
+            font-family: monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            color: var(--color-accent-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-actions {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 1.8rem;
+        }
+        
+        /* Tabs sections animations */
         .tab-section {
             display: none;
+            animation: tabFadeIn 0.3s ease-out forwards;
         }
+        
         .tab-section.active {
             display: block;
         }
-        .admin-nav-btn i {
-            width: 20px;
-            text-align: center;
+        
+        @keyframes tabFadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .form-row-full {
+        
+        /* Custom dashboard status widget in header */
+        .admin-stat-header {
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        .form-row-full label {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.85rem;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 1.5rem;
+            font-family: monospace;
+            font-size: 0.72rem;
             color: var(--color-text-secondary);
+            margin-bottom: 1.8rem;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+        }
+        .stat-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #34d399;
+        }
+        .stat-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #34d399;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 6px #34d399;
         }
     </style>
 </head>
@@ -54,7 +225,7 @@
                 </div>
                 <button type="submit" class="btn-primary" style="width: 100%; border: none; cursor: pointer;">Unlock Dashboard</button>
             </form>
-            <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--color-text-secondary);">Default password is: <code style="color: var(--color-accent);">admin123</code></p>
+            <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--color-text-secondary);">Unlock dashboard using standard admin credentials.</p>
         </div>
     </div>
 
@@ -68,6 +239,7 @@
                 <li><button class="admin-nav-btn" data-tab="tab-metrics"><i class="fa-solid fa-chart-simple"></i> Metrics</button></li>
                 <li><button class="admin-nav-btn" data-tab="tab-project"><i class="fa-solid fa-camera-retro"></i> Project</button></li>
                 <li><button class="admin-nav-btn" data-tab="tab-bot"><i class="fa-solid fa-comment-dots"></i> Chatbot</button></li>
+                <li><button class="admin-nav-btn" data-tab="tab-rag"><i class="fa-solid fa-file-pdf"></i> RAG Document</button></li>
                 <li style="margin-top: 2rem; border-top: var(--border-glass); padding-top: 1.5rem;">
                     <button class="admin-nav-btn" id="logout-btn" style="color: #ef4444;"><i class="fa-solid fa-power-off"></i> Logout</button>
                 </li>
@@ -76,6 +248,12 @@
 
         <!-- Right Panels Content -->
         <div class="admin-main-panel glass-panel">
+            <div class="admin-stat-header">
+                <span>CONFIG STATUS: <span class="stat-badge">LIVE_SYNC</span></span>
+                <span>ENGINE: <span style="color: var(--color-accent-blue);">RAG+GEMINI.v2</span></span>
+                <span>DB: <span style="color: var(--color-accent);">LOCAL_STORE</span></span>
+            </div>
+            
             <form id="admin-config-form" class="admin-form">
                 
                 <!-- TAB 1: PROFILE SETTINGS -->
@@ -180,10 +358,59 @@
                             <input type="text" id="bot-mock" class="admin-form-input" required>
                         </div>
                         
-                        <!-- RAG Overrides List -->
-                        <h4 style="margin-top: 1.5rem; color: var(--color-accent); font-size: 0.95rem;">RAG Offline Replies</h4>
-                        <div id="rag-items-container" style="display: flex; flex-direction: column; gap: 1rem;">
-                            <!-- Dynamically injected via script -->
+                        <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
+                            <h4 style="color: var(--color-accent); font-size: 0.95rem; text-transform: uppercase;">Secure Gemini API Key</h4>
+                            <p style="font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.4;">
+                                To enable live generative replies for all portfolio visitors securely, enter your Google Gemini API key here. The key is stored safely on the server and is never exposed to the frontend.
+                            </p>
+                            
+                            <div class="admin-form-row">
+                                <label for="secure-gemini-key">API Key</label>
+                                <input type="password" id="secure-gemini-key" class="admin-form-input" placeholder="Enter secure Gemini API key...">
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.5rem;">
+                                <span id="secure-gemini-status" style="font-family: monospace; font-size: 0.75rem; color: #f59e0b;">Status: Checking...</span>
+                                <button type="button" id="save-gemini-key-btn" class="btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.8rem; border: none; cursor: pointer; width: auto;">Update Key</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 5: RAG DOCUMENT INDEXER -->
+                <div class="tab-section" id="tab-rag">
+                    <div class="admin-panel-header">
+                        <h3>RAG Document Indexer</h3>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <p style="font-size: 0.85rem; color: var(--color-text-secondary); line-height: 1.5;">
+                            Upload your resume or additional technical PDF documents. The system will parse the pages locally in your browser, chunk the text, and submit the segments to the Python backend to compute TF-IDF frequency vectors and index them completely offline.
+                        </p>
+                        
+                        <div class="glass-panel" style="padding: 2.2rem; display: flex; flex-direction: column; gap: 1.2rem; align-items: center; justify-content: center; border: 1px dashed rgba(255, 204, 1, 0.3) !important;">
+                            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.5rem; color: var(--color-accent);"></i>
+                            <div style="text-align: center;">
+                                <label for="rag-pdf-input" class="btn-secondary" style="padding: 0.6rem 1.5rem; font-size: 0.85rem; cursor: pointer; display: inline-block;">Select Resume PDF</label>
+                                <input type="file" id="rag-pdf-input" accept="application/pdf" style="display: none;">
+                            </div>
+                            <span id="rag-file-info" style="font-family: monospace; font-size: 0.75rem; color: var(--color-text-secondary);">No PDF file selected.</span>
+                        </div>
+                        
+                        <!-- Progress status HUD -->
+                        <div id="rag-status-hud" class="glass-panel" style="padding: 1.2rem; display: none; font-family: monospace; font-size: 0.75rem; color: #34d399;">
+                            <div class="debug-title" style="margin-bottom: 5px;">// INDEXING IN PROGRESS</div>
+                            <div id="rag-status-line-1">> Preparing PDF worker...</div>
+                            <div id="rag-status-line-2"></div>
+                            <div id="rag-status-line-3"></div>
+                        </div>
+
+                        <!-- Current index statistics card -->
+                        <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem;">
+                            <h4 style="color: var(--color-accent-blue); font-size: 0.9rem; font-family: monospace; text-transform: uppercase;">Currently Indexed Documents</h4>
+                            <div id="rag-index-stats" style="font-family: monospace; font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.6;">
+                                <!-- Dynamically loaded from backend -->
+                            </div>
+                            <button type="button" class="btn-secondary" id="clear-rag-btn" style="border-color: #ef4444; color: #ef4444; padding: 0.4rem 1rem; font-size: 0.75rem; align-self: flex-start; margin-top: 0.5rem; display: none;">Clear Indexed RAG Data</button>
                         </div>
                     </div>
                 </div>
@@ -288,6 +515,7 @@
             adminDashboard.style.display = 'grid';
             loadConfiguration();
             initTabs();
+            loadRagStats();
         }
 
         // TAB SYSTEM HANDLER
@@ -343,34 +571,7 @@
             document.getElementById('bot-greet').value = currentConfig.chatbot.greeting;
             document.getElementById('bot-mock').value = currentConfig.chatbot.mockText;
 
-            // Generate RAG override inputs
-            const container = document.getElementById('rag-items-container');
-            container.innerHTML = '';
-
-            currentConfig.chatbot.ragReplies.forEach((reply, idx) => {
-                const item = document.createElement('div');
-                item.className = 'glass-panel';
-                item.style.padding = '1.5rem';
-                item.style.display = 'flex';
-                item.style.flexDirection = 'column';
-                item.style.gap = '0.8rem';
-                
-                // Truncate keywords list to show in card
-                const labelName = reply.keywords.split(',')[0].toUpperCase();
-                
-                item.innerHTML = `
-                    <h5 style="color: var(--color-accent); font-size: 0.9rem;">Topic Key: ${labelName}</h5>
-                    <div class="admin-form-row">
-                        <label>Keywords</label>
-                        <input type="text" class="admin-form-input rag-kw-input" data-index="${idx}" value="${reply.keywords}" required>
-                    </div>
-                    <div class="form-row-full">
-                        <label>AI Response</label>
-                        <textarea class="admin-form-input rag-ans-input" data-index="${idx}" required>${reply.answer}</textarea>
-                    </div>
-                `;
-                container.appendChild(item);
-            });
+            loadGeminiStatus();
         }
 
         // SAVE CONFIG FORM SUBMIT
@@ -397,21 +598,8 @@
             currentConfig.chatbot.greeting = document.getElementById('bot-greet').value.trim();
             currentConfig.chatbot.mockText = document.getElementById('bot-mock').value.trim();
 
-            // Extract RAG inputs
-            const kwInputs = document.querySelectorAll('.rag-kw-input');
-            const ansInputs = document.querySelectorAll('.rag-ans-input');
-
-            kwInputs.forEach(input => {
-                const idx = parseInt(input.getAttribute('data-index'));
-                currentConfig.chatbot.ragReplies[idx].keywords = input.value.trim();
-            });
-
-            ansInputs.forEach(textarea => {
-                const idx = parseInt(textarea.getAttribute('data-index'));
-                currentConfig.chatbot.ragReplies[idx].answer = textarea.value.trim();
-            });
-
-            // Save to LocalStorage
+            // Save configuration
+            localStorage.setItem('portfolio_config', JSON.stringify(currentConfig));
             localStorage.setItem('portfolio_config', JSON.stringify(currentConfig));
 
             // Display notification
@@ -420,12 +608,56 @@
 
         // RESTORE DEFAULTS Action
         document.getElementById('reset-btn').addEventListener('click', () => {
-            if (confirm('Are you sure you want to reset all configurations to their original code defaults? This will erase custom saved values.')) {
+            if (confirm('Are you sure you want to reset all configurations to their original defaults?')) {
                 localStorage.removeItem('portfolio_config');
                 loadConfiguration();
                 showToast('Original Defaults Restored!');
             }
         });
+
+        // Load Gemini status
+        async function loadGeminiStatus() {
+            const statusSpan = document.getElementById('secure-gemini-status');
+            if (!statusSpan) return;
+            try {
+                const res = await fetch('/api/get_gemini_status');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.status === 'configured') {
+                        statusSpan.innerHTML = 'Status: <span style="color: #34d399; font-weight: bold;">SECURED (Active)</span>';
+                    } else {
+                        statusSpan.innerHTML = 'Status: <span style="color: #f59e0b; font-weight: bold;">NOT CONFIGURED (Offline)</span>';
+                    }
+                }
+            } catch (e) {
+                statusSpan.innerHTML = 'Status: <span style="color: #ef4444;">Offline</span>';
+            }
+        }
+
+        // Secure key update listeners
+        const saveKeyBtn = document.getElementById('save-gemini-key-btn');
+        const secureKeyInput = document.getElementById('secure-gemini-key');
+        if (saveKeyBtn && secureKeyInput) {
+            saveKeyBtn.addEventListener('click', async () => {
+                const keyVal = secureKeyInput.value.trim();
+                try {
+                    const res = await fetch('/api/save_gemini_key', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ key: keyVal })
+                    });
+                    if (res.ok) {
+                        showToast('Gemini API Key Updated!');
+                        secureKeyInput.value = '';
+                        loadGeminiStatus();
+                    } else {
+                        showToast('Failed updating Gemini key');
+                    }
+                } catch(e) {
+                    showToast('Error connecting to server');
+                }
+            });
+        }
 
         // EXPORT CONFIG JSON FILE
         document.getElementById('export-btn').addEventListener('click', () => {
@@ -444,6 +676,374 @@
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 3000);
+        }
+
+        // PDF.js worker loading dynamically
+        function initPdfWorker() {
+            if (window.pdfjsLib) return Promise.resolve();
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js';
+                script.onload = () => {
+                    window.pdfjsLib = window['pdfjs-dist/build/pdf'];
+                    window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+                    resolve();
+                };
+                script.onerror = () => reject(new Error('Failed to load PDF.js script'));
+                document.head.appendChild(script);
+            });
+        }
+
+        // Load RAG indexes from Python backend
+        async function loadRagStats() {
+            const statsDiv = document.getElementById('rag-index-stats');
+            const clearBtn = document.getElementById('clear-rag-btn');
+            if (!statsDiv) return;
+            
+            try {
+                const response = await fetch('/api/get_rag_stats');
+                if (!response.ok) throw new Error('Failed to fetch stats');
+                const data = await response.json();
+                
+                if (data.filename) {
+                    statsDiv.innerHTML = `
+                        <strong>Document:</strong> ${data.filename}<br>
+                        <strong>Indexed On:</strong> ${data.date || 'Unknown'}<br>
+                        <strong>Chunks Stored:</strong> ${data.chunks_count} segments<br>
+                        <strong>Vocabulary Size:</strong> ${data.vocab_size} terms
+                    `;
+                    if (clearBtn) clearBtn.style.display = 'inline-block';
+                } else {
+                    statsDiv.innerHTML = '<em>No custom resume or PDF documents have been indexed yet. Chatbot is using pre-configured offline responses.</em>';
+                    if (clearBtn) clearBtn.style.display = 'none';
+                }
+            } catch(e) {
+                statsDiv.innerHTML = '<em>Failed communicating with Python backend service.</em>';
+                if (clearBtn) clearBtn.style.display = 'none';
+            }
+        }
+
+        // PDF Indexer execution hooks
+        const pdfInput = document.getElementById('rag-pdf-input');
+        const fileInfo = document.getElementById('rag-file-info');
+        const statusHud = document.getElementById('rag-status-hud');
+        const clearRagBtn = document.getElementById('clear-rag-btn');
+
+        if (pdfInput) {
+            pdfInput.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                fileInfo.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+                statusHud.style.display = 'block';
+                
+                const line1 = document.getElementById('rag-status-line-1');
+                const line2 = document.getElementById('rag-status-line-2');
+                const line3 = document.getElementById('rag-status-line-3');
+
+                line1.textContent = `> Initializing PDF.js library threads...`;
+                line2.textContent = '';
+                line3.textContent = '';
+
+                try {
+                    await initPdfWorker();
+                    line1.textContent = `> Accessing raw file buffers...`;
+                    
+                    const reader = new FileReader();
+                    reader.onload = async function() {
+                        try {
+                            const typedArray = new Uint8Array(this.result);
+                            line1.textContent = `> Extracting text vectors from PDF Pages...`;
+                            
+                            const pdf = await window.pdfjsLib.getDocument({ data: typedArray }).promise;
+                            let fullText = '';
+                            
+                            for (let i = 1; i <= pdf.numPages; i++) {
+                                line2.textContent = `> Processing page ${i} of ${pdf.numPages}...`;
+                                const page = await pdf.getPage(i);
+                                const textContent = await page.getTextContent();
+                                const pageText = textContent.items.map(item => item.str).join(' ');
+                                fullText += pageText + '\n\n';
+                            }
+
+                            line1.textContent = `> Segmenting content to local thresholds...`;
+                            line2.textContent = `> Sending text chunks to Python backend...`;
+                            
+                            // Chunking logic
+                            const paragraphs = fullText.split(/\n+/);
+                            let rawChunks = [];
+                            let currentChunk = '';
+                            
+                            for (const p of paragraphs) {
+                                const trimmed = p.trim();
+                                if (!trimmed) continue;
+                                if (currentChunk.length + trimmed.length > 350) {
+                                    if (currentChunk) rawChunks.push(currentChunk.trim());
+                                    currentChunk = trimmed;
+                                } else {
+                                    currentChunk += '\n' + trimmed;
+                                }
+                            }
+                            if (currentChunk) rawChunks.push(currentChunk.trim());
+
+                            if (rawChunks.length === 0) {
+                                throw new Error("No parseable text segments found in this document.");
+                            }
+
+                            // Submit to Python server
+                            const response = await fetch('/api/index_rag', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    filename: file.name,
+                                    chunks: rawChunks
+                                })
+                            });
+
+                            if (!response.ok) {
+                                throw new Error("Python server indexing failed");
+                            }
+
+                            const result = await response.json();
+                            
+                            line1.textContent = `> Indexing successfully complete!`;
+                            line2.textContent = `> Total Chunks Stored: ${result.chunks_count}`;
+                            line3.textContent = `> Unique Keywords Found: ${result.vocab_size}`;
+                            
+                            loadRagStats();
+                            showToast('RAG Document Indexed Successfully!');
+                            
+                        } catch(err) {
+                            line1.textContent = `> Error parsing PDF document!`;
+                            line2.textContent = `> Details: ${err.message}`;
+                            console.error(err);
+                        }
+                    };
+                    reader.readAsArrayBuffer(file);
+
+                } catch(err) {
+                    line1.textContent = `> PDF parser initializations failed!`;
+                    line2.textContent = `> Details: ${err.message}`;
+                    console.error(err);
+                }
+            });
+        }
+
+        if (clearRagBtn) {
+            clearRagBtn.addEventListener('click', async () => {
+                if (confirm('Clear currently indexed RAG context? The chatbot will fall back to default template rules.')) {
+                    try {
+                        const response = await fetch('/api/clear_rag', { method: 'POST' });
+                        if (!response.ok) throw new Error('Clear failed');
+                        loadRagStats();
+                        if (pdfInput) pdfInput.value = '';
+                        if (fileInfo) fileInfo.textContent = 'No PDF file selected.';
+                        if (statusHud) statusHud.style.display = 'none';
+                        showToast('RAG Database Cleared!');
+                    } catch (e) {
+                        alert('Failed clearing index: ' + e.message);
+                    }
+                }
+            });
+        }
+
+        // PDF.js worker loading dynamically
+        function initPdfWorker() {
+            if (window.pdfjsLib) return Promise.resolve();
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js';
+                script.onload = () => {
+                    window.pdfjsLib = window['pdfjs-dist/build/pdf'];
+                    window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+                    resolve();
+                };
+                script.onerror = () => reject(new Error('Failed to load PDF.js script'));
+                document.head.appendChild(script);
+            });
+        }
+
+        // Load RAG indexes
+        function loadRagStats() {
+            const statsDiv = document.getElementById('rag-index-stats');
+            const clearBtn = document.getElementById('clear-rag-btn');
+            if (!statsDiv) return;
+            
+            const raw = localStorage.getItem('portfolio_rag_data');
+            if (raw) {
+                try {
+                    const data = JSON.parse(raw);
+                    statsDiv.innerHTML = `
+                        <strong>Document:</strong> ${data.filename || 'Unknown'}<br>
+                        <strong>Indexed On:</strong> ${data.date || 'Unknown'}<br>
+                        <strong>Chunks Stored:</strong> ${data.chunks ? data.chunks.length : 0} segments<br>
+                        <strong>Vocabulary Size:</strong> ${data.vocab ? data.vocab.length : 0} terms
+                    `;
+                    if (clearBtn) clearBtn.style.display = 'inline-block';
+                } catch(e) {
+                    statsDiv.innerHTML = '<em>Failed reading RAG index schema from memory.</em>';
+                    if (clearBtn) clearBtn.style.display = 'none';
+                }
+            } else {
+                statsDiv.innerHTML = '<em>No custom resume or PDF documents have been indexed yet. Chatbot is using pre-configured offline responses.</em>';
+                if (clearBtn) clearBtn.style.display = 'none';
+            }
+        }
+
+        // PDF Indexer execution hooks
+        const pdfInput = document.getElementById('rag-pdf-input');
+        const fileInfo = document.getElementById('rag-file-info');
+        const statusHud = document.getElementById('rag-status-hud');
+        const clearRagBtn = document.getElementById('clear-rag-btn');
+
+        if (pdfInput) {
+            pdfInput.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                fileInfo.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+                statusHud.style.display = 'block';
+                
+                const line1 = document.getElementById('rag-status-line-1');
+                const line2 = document.getElementById('rag-status-line-2');
+                const line3 = document.getElementById('rag-status-line-3');
+
+                line1.textContent = `> Initializing PDF.js library threads...`;
+                line2.textContent = '';
+                line3.textContent = '';
+
+                try {
+                    await initPdfWorker();
+                    line1.textContent = `> Accessing raw file buffers...`;
+                    
+                    const reader = new FileReader();
+                    reader.onload = async function() {
+                        try {
+                            const typedArray = new Uint8Array(this.result);
+                            line1.textContent = `> Extracting text vectors from PDF Pages...`;
+                            
+                            const pdf = await window.pdfjsLib.getDocument({ data: typedArray }).promise;
+                            let fullText = '';
+                            
+                            for (let i = 1; i <= pdf.numPages; i++) {
+                                line2.textContent = `> Processing page ${i} of ${pdf.numPages}...`;
+                                const page = await pdf.getPage(i);
+                                const textContent = await page.getTextContent();
+                                const pageText = textContent.items.map(item => item.str).join(' ');
+                                fullText += pageText + '\n\n';
+                            }
+
+                            line1.textContent = `> Generating TF-IDF text index chunks...`;
+                            line2.textContent = `> Segmenting content to local thresholds...`;
+                            
+                            // Chunking logic
+                            const paragraphs = fullText.split(/\n+/);
+                            let rawChunks = [];
+                            let currentChunk = '';
+                            
+                            for (const p of paragraphs) {
+                                const trimmed = p.trim();
+                                if (!trimmed) continue;
+                                if (currentChunk.length + trimmed.length > 350) {
+                                    if (currentChunk) rawChunks.push(currentChunk.trim());
+                                    currentChunk = trimmed;
+                                } else {
+                                    currentChunk += '\n' + trimmed;
+                                }
+                            }
+                            if (currentChunk) rawChunks.push(currentChunk.trim());
+
+                            if (rawChunks.length === 0) {
+                                throw new Error("No parseable text segments found in this document.");
+                            }
+
+                            // Calculate vocab & document counts
+                            const vocab = new Set();
+                            const docCount = rawChunks.length;
+                            const df = {};
+                            const tokenize = (text) => text.toLowerCase().match(/\w+/g) || [];
+                            
+                            const docTermFreqs = rawChunks.map(chunk => {
+                                const tokens = tokenize(chunk);
+                                const freqs = {};
+                                const uniqueTokens = new Set(tokens);
+                                tokens.forEach(t => {
+                                    freqs[t] = (freqs[t] || 0) + 1;
+                                    vocab.add(t);
+                                });
+                                uniqueTokens.forEach(t => {
+                                    df[t] = (df[t] || 0) + 1;
+                                });
+                                return freqs;
+                            });
+                            
+                            const idf = {};
+                            vocab.forEach(term => {
+                                idf[term] = Math.log(1 + (docCount / (df[term] || 1)));
+                            });
+                            
+                            const indexChunks = rawChunks.map((text, idx) => {
+                                const freqs = docTermFreqs[idx];
+                                const tfidf = {};
+                                let magnitudeSq = 0;
+                                Object.keys(freqs).forEach(term => {
+                                    const score = freqs[term] * idf[term];
+                                    tfidf[term] = score;
+                                    magnitudeSq += score * score;
+                                });
+                                return {
+                                    text,
+                                    vector: tfidf,
+                                    magnitude: Math.sqrt(magnitudeSq)
+                                };
+                            });
+
+                            const ragData = {
+                                filename: file.name,
+                                date: new Date().toLocaleString(),
+                                chunks: indexChunks,
+                                vocab: Array.from(vocab),
+                                idf
+                            };
+
+                            localStorage.setItem('portfolio_rag_data', JSON.stringify(ragData));
+                            
+                            line1.textContent = `> Indexing successfully complete!`;
+                            line2.textContent = `> Total Chunks Indexed: ${rawChunks.length}`;
+                            line3.textContent = `> Unique Keywords Found: ${vocab.size}`;
+                            
+                            loadRagStats();
+                            showToast('RAG Document Indexed Successfully!');
+                            
+                        } catch(err) {
+                            line1.textContent = `> Error parsing PDF document!`;
+                            line2.textContent = `> Details: ${err.message}`;
+                            console.error(err);
+                        }
+                    };
+                    reader.readAsArrayBuffer(file);
+
+                } catch(err) {
+                    line1.textContent = `> PDF parser initializations failed!`;
+                    line2.textContent = `> Details: ${err.message}`;
+                    console.error(err);
+                }
+            });
+        }
+
+        if (clearRagBtn) {
+            clearRagBtn.addEventListener('click', () => {
+                if (confirm('Clear currently indexed RAG context? The chatbot will fall back to default template rules.')) {
+                    localStorage.removeItem('portfolio_rag_data');
+                    loadRagStats();
+                    if (pdfInput) pdfInput.value = '';
+                    if (fileInfo) fileInfo.textContent = 'No PDF file selected.';
+                    if (statusHud) statusHud.style.display = 'none';
+                    showToast('RAG Database Cleared!');
+                }
+            });
         }
 
         // Particle background canvas resize
