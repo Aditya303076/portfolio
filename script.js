@@ -19,10 +19,14 @@ const DEFAULT_CONFIG = {
         m3Val: "2x",
         m3Lbl: "Load Speedup"
     },
-    project: {
-        title: "EmotionAI App",
-        desc: "A native Flutter application integrated with a localized camera feed controller to evaluate facial features and process emotion classifications in real time. It binds hardware camera streams, handles frame buffers efficiently, and uses optimized inference files for local predictions."
-    },
+    projects: [
+        {
+            title: "EmotionAI App",
+            desc: "A native Flutter application integrated with a localized camera feed controller to evaluate facial features and process emotion classifications in real time. It binds hardware camera streams, handles frame buffers efficiently, and uses optimized inference files for local predictions.",
+            tags: "Flutter, Dart, Computer Vision, Tensorflow Lite",
+            link: "https://github.com/Aditya303076/EmotionAI"
+        }
+    ],
     chatbot: {
         greeting: "Hi! I am Aditya's AI Assistant. I can tell you about his projects (like the Camera Service inside EmotionAI), skills, workflow, or contact details. Ask me anything!",
         mockText: "\"Hi! I can share Aditya's experience in full-stack dev and AI. What would you like to know?\"",
@@ -69,6 +73,23 @@ function loadPortfolioConfig() {
             activeConfig = { ...DEFAULT_CONFIG };
         }
     }
+    
+    // Migration logic for projects array
+    if (!activeConfig.projects) {
+        if (activeConfig.project) {
+            activeConfig.projects = [
+                {
+                    title: activeConfig.project.title || "EmotionAI App",
+                    desc: activeConfig.project.desc || "A native Flutter application integrated with a localized camera feed controller to evaluate facial features and process emotion classifications in real time. It binds hardware camera streams, handles frame buffers efficiently, and uses optimized inference files for local predictions.",
+                    tags: "Flutter, Dart, Computer Vision, Tensorflow Lite",
+                    link: "https://github.com/Aditya303076/EmotionAI"
+                }
+            ];
+        } else {
+            activeConfig.projects = [];
+        }
+    }
+    
     renderDynamicContent();
 }
 
@@ -108,16 +129,162 @@ function renderDynamicContent() {
     if (aboutQuoteNode) aboutQuoteNode.textContent = activeConfig.profile.quote;
 
     // Project Details
-    const projectTitleNode = document.getElementById('dyn-project-title');
-    const projectDescNode = document.getElementById('dyn-project-desc');
-    if (projectTitleNode) projectTitleNode.textContent = activeConfig.project.title;
-    if (projectDescNode) projectDescNode.textContent = activeConfig.project.desc;
+    renderProjects();
 
     // Chatbot assets
     const chatGreetNode = document.getElementById('dyn-chatbot-greeting');
     const chatMockNode = document.getElementById('dyn-mock-chat-bubble');
     if (chatGreetNode) chatGreetNode.innerHTML = `<span class="term-prompt">aditya@system:~$</span> ${activeConfig.chatbot.greeting}`;
     if (chatMockNode) chatMockNode.textContent = activeConfig.chatbot.mockText;
+}
+
+// Render projects dynamically (either interactive showcase or multi-card grid)
+function renderProjects() {
+    const container = document.getElementById('dyn-projects-container');
+    if (!container) return;
+    container.innerHTML = '';
+
+    const list = activeConfig.projects || [];
+    
+    if (list.length === 0) {
+        container.innerHTML = '<div style="text-align: center; color: var(--color-text-secondary); font-family: monospace; padding: 3rem; width: 100%;">No projects to display. Add some in the Admin Panel!</div>';
+        return;
+    }
+
+    // Check if we should render the single featured project with interactive media
+    if (list.length === 1 && list[0].title === "EmotionAI App") {
+        const proj = list[0];
+        const tagsHtml = proj.tags.split(',').map(t => `<span class="project-tag">${t.trim()}</span>`).join('\n');
+        
+        const isClickable = proj.link ? 'style="cursor: pointer;" onclick="window.open(\'' + proj.link + '\', \'_blank\')"' : '';
+        const hoverClass = proj.link ? 'project-clickable' : '';
+        
+        container.className = `project-showcase reveal-item ${hoverClass}`;
+        if (proj.link) {
+            container.setAttribute('title', 'Click to view project live link');
+        }
+        
+        container.innerHTML = `
+            <!-- Left Side visual representing Flutter device flow -->
+            <div class="project-showcase-media glass-panel" ${isClickable}>
+                <div class="scanner-container">
+                    <div class="scanner-grid"></div>
+                    <div class="scanner-camera-feed">
+                        <svg class="scanner-face-vector" viewBox="0 0 100 100">
+                            <path class="face-outline" d="M 25 35 C 25 20, 75 20, 75 35 C 75 55, 65 75, 50 85 C 35 75, 25 55, 25 35 Z" fill="none" stroke="rgba(255, 204, 1, 0.15)" stroke-width="1.2" />
+                            <path class="face-eye-l" d="M 38 42 Q 43 38, 48 42" fill="none" stroke="var(--color-accent)" stroke-width="1.5" />
+                            <path class="face-eye-r" d="M 52 42 Q 57 38, 62 42" fill="none" stroke="var(--color-accent)" stroke-width="1.5" />
+                            <path class="face-mouth" d="M 40 62 Q 50 68, 60 62" fill="none" stroke="rgba(255, 204, 1, 0.4)" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                        
+                        <div class="scanner-bounding-box">
+                            <span class="corner top-left"></span>
+                            <span class="corner top-right"></span>
+                            <span class="corner bottom-left"></span>
+                            <span class="corner bottom-right"></span>
+                            <div class="scanner-tag">EMOTION: <span id="scan-val-emotion">DETECTING</span> <span id="scan-val-percent">--%</span></div>
+                            <div class="scanner-line"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="scanner-debug-panel">
+                        <div class="debug-title">// FPS PIPELINE RUNNING</div>
+                        <div class="debug-log-line">> camera_service.dart initialized</div>
+                        <div class="debug-log-line">> tflite_inference.dart loaded model</div>
+                        <div class="debug-log-line">> output_buffer_rate: 30 FPS</div>
+                        <div class="debug-log-line">> target_coordinates: x[482] y[180]</div>
+                        <div class="debug-log-line">> response_delay: 11ms</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Side details -->
+            <div class="project-showcase-details">
+                <div class="project-tags" style="margin-bottom: 1.5rem;">
+                    ${tagsHtml}
+                </div>
+                <h3>${proj.title}</h3>
+                <p>${proj.desc}</p>
+                
+                <div class="project-features-grid">
+                    <div class="feature-item">
+                        <i class="fa-solid fa-camera"></i>
+                        <div>
+                            <h5>Stream Controller</h5>
+                            <p>Manages resolution settings, frame buffers, and camera rotations.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-bolt"></i>
+                        <div>
+                            <h5>Local Classifier</h5>
+                            <p>Runs offline inferences on local frame segments at 30 FPS.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-database"></i>
+                        <div>
+                            <h5>History Cache</h5>
+                            <p>Stores and retrieves session metrics inside an SQLite db.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-display"></i>
+                        <div>
+                            <h5>Reactive Interface</h5>
+                            <p>Updates overlays and graphs dynamically based on readings.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                ${proj.link ? `
+                <a href="${proj.link}" target="_blank" class="btn-primary" style="display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-up-right-from-square" style="font-size: 0.9rem;"></i> View Project Live
+                </a>
+                ` : `
+                <a href="#contact" class="btn-primary">Discuss Project</a>
+                `}
+            </div>
+        `;
+        
+        // Re-initialize any scanning mocks
+        initScannerMock();
+    } else {
+        // Render multiple projects in a beautiful grid layout
+        container.className = "projects-grid reveal-item";
+        
+        list.forEach(proj => {
+            const tagsHtml = proj.tags.split(',').map(t => `<span class="project-card-tag">${t.trim()}</span>`).join('\n');
+            
+            const card = document.createElement('div');
+            card.className = "project-card glass-panel";
+            if (proj.link) {
+                card.setAttribute('onclick', `window.open('${proj.link}', '_blank')`);
+                card.style.cursor = 'pointer';
+                card.setAttribute('title', 'Click to open project live link');
+            }
+            
+            card.innerHTML = `
+                <div>
+                    <div class="project-card-header">
+                        <div class="project-card-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                        ${proj.link ? `<div class="project-card-link-icon"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>` : ''}
+                    </div>
+                    <h3 style="font-family: var(--font-heading); text-transform: uppercase; font-weight: 700; font-size: 1.5rem; color: #fff; margin-bottom: 0.8rem;">${proj.title}</h3>
+                    <p style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">${proj.desc}</p>
+                </div>
+                <div>
+                    <div class="project-card-tags" style="margin-top: 1rem;">
+                        ${tagsHtml}
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+    
+    // Bind tilts logic to newly generated items
+    initCardTilts();
 }
 
 // Run config loader instantly

@@ -326,20 +326,14 @@
                     </div>
                 </div>
 
-                <!-- TAB 3: EMOTIONAI DATA -->
+                <!-- TAB 3: PROJECTS MANAGER -->
                 <div class="tab-section" id="tab-project">
-                    <div class="admin-panel-header">
-                        <h3>Featured Project</h3>
+                    <div class="admin-panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3>Projects Manager</h3>
+                        <button type="button" class="btn-primary" id="add-project-btn" style="padding: 0.5rem 1.2rem; font-size: 0.85rem; border: none; cursor: pointer; width: auto;"><i class="fa-solid fa-plus" style="margin-right: 5px;"></i> Add Project</button>
                     </div>
-                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                        <div class="admin-form-row">
-                            <label for="p-title">Project Title</label>
-                            <input type="text" id="p-title" class="admin-form-input" required>
-                        </div>
-                        <div class="form-row-full">
-                            <label for="p-desc">Description</label>
-                            <textarea id="p-desc" class="admin-form-input" style="height: 150px;" required></textarea>
-                        </div>
+                    <div id="projects-list-container" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <!-- Dynamically generated projects forms will go here -->
                     </div>
                 </div>
 
@@ -444,10 +438,14 @@
                 m3Val: "2x",
                 m3Lbl: "Load Speedup"
             },
-            project: {
-                title: "EmotionAI App",
-                desc: "A native Flutter application integrated with a localized camera feed controller to evaluate facial features and process emotion classifications in real time. It binds hardware camera streams, handles frame buffers efficiently, and uses optimized inference files for local predictions."
-            },
+            projects: [
+                {
+                    title: "EmotionAI App",
+                    desc: "A native Flutter application integrated with a localized camera feed controller to evaluate facial features and process emotion classifications in real time. It binds hardware camera streams, handles frame buffers efficiently, and uses optimized inference files for local predictions.",
+                    tags: "Flutter, Dart, Computer Vision, Tensorflow Lite",
+                    link: "https://github.com/Aditya303076/EmotionAI"
+                }
+            ],
             chatbot: {
                 greeting: "Hi! I am Aditya's AI Assistant. I can tell you about his projects (like the Camera Service inside EmotionAI), skills, workflow, or contact details. Ask me anything!",
                 mockText: "\"Hi! I can share Aditya's experience in full-stack dev and AI. What would you like to know?\"",
@@ -539,6 +537,81 @@
 
         // LOAD CURRENT CONFIG
         let currentConfig = null;
+        // Render projects list in admin panel
+        const projectsContainer = document.getElementById('projects-list-container');
+        const addProjectBtn = document.getElementById('add-project-btn');
+
+        function renderAdminProjectsList() {
+            if (!projectsContainer) return;
+            projectsContainer.innerHTML = '';
+            
+            if (!currentConfig.projects || currentConfig.projects.length === 0) {
+                projectsContainer.innerHTML = '<div style="text-align: center; color: var(--color-text-secondary); font-family: monospace; padding: 2rem;">No custom projects added yet. Click "Add Project" above to create one.</div>';
+                return;
+            }
+
+            currentConfig.projects.forEach((proj, index) => {
+                const projectCard = document.createElement('div');
+                projectCard.className = 'glass-panel';
+                projectCard.style.padding = '2rem';
+                projectCard.style.position = 'relative';
+                projectCard.style.display = 'flex';
+                projectCard.style.flexDirection = 'column';
+                projectCard.style.gap = '1.2rem';
+                projectCard.style.marginBottom = '1rem';
+                
+                projectCard.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.8rem;">
+                        <h4 style="color: var(--color-accent); font-family: monospace; font-size: 0.95rem; margin: 0;">Project #${index + 1}</h4>
+                        <button type="button" class="btn-secondary remove-project-btn" data-index="${index}" style="border-color: #ef4444; color: #ef4444; padding: 0.3rem 0.8rem; font-size: 0.75rem; width: auto; cursor: pointer;">
+                            <i class="fa-solid fa-trash-can" style="margin-right: 4px;"></i> Remove
+                        </button>
+                    </div>
+                    <div class="admin-form-row">
+                        <label>Title</label>
+                        <input type="text" class="admin-form-input project-title-input" data-index="${index}" value="${proj.title || ''}" required>
+                    </div>
+                    <div class="admin-form-row">
+                        <label>Tags</label>
+                        <input type="text" class="admin-form-input project-tags-input" data-index="${index}" placeholder="e.g. Flutter, Dart, AI" value="${proj.tags || ''}" required>
+                    </div>
+                    <div class="admin-form-row">
+                        <label>Live Link</label>
+                        <input type="url" class="admin-form-input project-link-input" data-index="${index}" placeholder="e.g. https://github.com/username/project" value="${proj.link || ''}">
+                    </div>
+                    <div class="form-row-full" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; font-size: 0.9rem; color: var(--color-text-secondary);">Description</label>
+                        <textarea class="admin-form-input project-desc-input" data-index="${index}" style="height: 100px;" required>${proj.desc || ''}</textarea>
+                    </div>
+                `;
+                projectsContainer.appendChild(projectCard);
+            });
+
+            // Bind remove button event listeners
+            document.querySelectorAll('.remove-project-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = parseInt(btn.getAttribute('data-index'));
+                    if (confirm(`Are you sure you want to remove Project #${index + 1}?`)) {
+                        currentConfig.projects.splice(index, 1);
+                        renderAdminProjectsList();
+                    }
+                });
+            });
+        }
+
+        if (addProjectBtn) {
+            addProjectBtn.addEventListener('click', () => {
+                if (!currentConfig.projects) currentConfig.projects = [];
+                currentConfig.projects.push({
+                    title: 'New Project',
+                    desc: 'Project description goes here.',
+                    tags: 'HTML, CSS, JS',
+                    link: ''
+                });
+                renderAdminProjectsList();
+            });
+        }
+
         function loadConfiguration() {
             const raw = localStorage.getItem('portfolio_config');
             if (raw) {
@@ -550,6 +623,22 @@
                 }
             } else {
                 currentConfig = {...DEFAULT_CONFIG};
+            }
+
+            // Migration logic for projects array
+            if (!currentConfig.projects) {
+                if (currentConfig.project) {
+                    currentConfig.projects = [
+                        {
+                            title: currentConfig.project.title || "EmotionAI App",
+                            desc: currentConfig.project.desc || "A native Flutter application integrated with a localized camera feed controller to evaluate facial features and process emotion classifications in real time. It binds hardware camera streams, handles frame buffers efficiently, and uses optimized inference files for local predictions.",
+                            tags: "Flutter, Dart, Computer Vision, Tensorflow Lite",
+                            link: "https://github.com/Aditya303076/EmotionAI"
+                        }
+                    ];
+                } else {
+                    currentConfig.projects = [];
+                }
             }
 
             // Bind values to inputs
@@ -565,8 +654,8 @@
             document.getElementById('m3-val').value = currentConfig.metrics.m3Val;
             document.getElementById('m3-lbl').value = currentConfig.metrics.m3Lbl;
 
-            document.getElementById('p-title').value = currentConfig.project.title;
-            document.getElementById('p-desc').value = currentConfig.project.desc;
+            // Render projects list in admin UI
+            renderAdminProjectsList();
 
             document.getElementById('bot-greet').value = currentConfig.chatbot.greeting;
             document.getElementById('bot-mock').value = currentConfig.chatbot.mockText;
@@ -592,14 +681,26 @@
             currentConfig.metrics.m3Val = document.getElementById('m3-val').value.trim();
             currentConfig.metrics.m3Lbl = document.getElementById('m3-lbl').value.trim();
 
-            currentConfig.project.title = document.getElementById('p-title').value.trim();
-            currentConfig.project.desc = document.getElementById('p-desc').value.trim();
+            // Extract projects from the list inputs
+            currentConfig.projects = [];
+            const projectTitles = document.querySelectorAll('.project-title-input');
+            const projectTags = document.querySelectorAll('.project-tags-input');
+            const projectLinks = document.querySelectorAll('.project-link-input');
+            const projectDescs = document.querySelectorAll('.project-desc-input');
+
+            projectTitles.forEach((titleInput, index) => {
+                currentConfig.projects.push({
+                    title: titleInput.value.trim(),
+                    tags: projectTags[index].value.trim(),
+                    link: projectLinks[index].value.trim(),
+                    desc: projectDescs[index].value.trim()
+                });
+            });
 
             currentConfig.chatbot.greeting = document.getElementById('bot-greet').value.trim();
             currentConfig.chatbot.mockText = document.getElementById('bot-mock').value.trim();
 
             // Save configuration
-            localStorage.setItem('portfolio_config', JSON.stringify(currentConfig));
             localStorage.setItem('portfolio_config', JSON.stringify(currentConfig));
 
             // Display notification
