@@ -316,20 +316,6 @@ class RAGHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_header('Content-Type', 'application/json')
                 self.end_headers()
                 self.wfile.write(json.dumps({"status": "error", "message": str(e)}).encode('utf-8'))
-                
-        elif path == '/api/get_gemini_status':
-            try:
-                key = get_gemini_key()
-                status = "configured" if key else "unconfigured"
-                
-                self.send_response(200)
-                self.send_header('Content-Type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"status": status}).encode('utf-8'))
-            except Exception as e:
-                self.send_response(500)
-                self.end_headers()
-                self.wfile.write(str(e).encode('utf-8'))
 
         elif path == '/api/chat':
             content_length = int(self.headers['Content-Length'])
@@ -438,6 +424,27 @@ class RAGHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(500)
                 self.end_headers()
                 self.wfile.write(str(e).encode('utf-8'))
+        else:
+            self.send_response(404)
+            self.end_headers()
+
+    def do_GET(self):
+        parsed_url = urllib.parse.urlparse(self.path)
+        path = parsed_url.path
+        
+        if path == '/api/get_gemini_status':
+            try:
+                key = get_gemini_key()
+                status = "configured" if key else "unconfigured"
+                
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": status}).encode('utf-8'))
+            except Exception as e:
+                self.send_response(500)
+                self.end_headers()
+                self.wfile.write(str(e).encode('utf-8'))
                 
         elif path == '/api/get_rag_stats':
             try:
@@ -467,11 +474,7 @@ class RAGHandler(http.server.SimpleHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(str(e).encode('utf-8'))
         else:
-            self.send_response(404)
-            self.end_headers()
-
-    def do_GET(self):
-        super().do_GET()
+            super().do_GET()
 
 if __name__ == '__main__':
     print(f"Starting python server on http://localhost:{PORT}...")
