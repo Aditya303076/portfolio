@@ -17,3 +17,8 @@ package-lock.json
 .idea/
 .DS_Store
 Thumbs.db
+
+# Python Cache
+__pycache__/
+*.pyc
+
