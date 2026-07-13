@@ -2287,3 +2287,26 @@ textarea.admin-form-input {
     border-radius: 4px !important;
     padding: 0.4rem 0.8rem !important;
 }
+
+/* --------------------------------------------------------------------------
+   GPU ACCELERATED SCROLL PARALLAX BINDINGS
+   -------------------------------------------------------------------------- */
+@media (min-width: 769px) {
+    .hero-content {
+        transform: translateY(calc(var(--scroll-y, 0px) * 0.18));
+        opacity: calc(1 - (var(--scroll-y, 0px) / 650));
+        will-change: transform, opacity;
+    }
+    .hero-mockup {
+        transform: translateY(calc(var(--scroll-y, 0px) * 0.08));
+        will-change: transform;
+    }
+    .glow-aura {
+        transform: translateY(calc(var(--scroll-y, 0px) * 0.28));
+        will-change: transform;
+    }
+    #bg-canvas {
+        transform: translateY(calc(var(--scroll-y, 0px) * 0.1));
+        will-change: transform;
+    }
+}
