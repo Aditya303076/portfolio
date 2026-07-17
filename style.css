@@ -1155,8 +1155,10 @@ textarea.form-input {
 }
 
 .chatbot-panel {
-    width: 380px;
-    height: 600px;
+    width: 340px;
+    height: 480px;
+    max-width: calc(100vw - 60px);
+    max-height: calc(100vh - 120px);
     border-radius: 20px;
     margin-bottom: 20px;
     display: flex;
