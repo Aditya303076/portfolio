@@ -17,21 +17,25 @@ KEY_FILE = "gemini_key.txt"
 def get_gemini_key():
     # First, check the Render environment variable
     env_key = os.getenv("GEMINI_API_KEY")
-    if env_key:
+    if env_key and not env_key.strip().startswith("#") and env_key.strip() != "":
         return env_key.strip()
 
     # Fallback for local development
     if os.path.exists(KEY_FILE):
         try:
             with open(KEY_FILE, "r", encoding="utf-8") as f:
-                return f.read().strip()
+                content = f.read().strip()
+                # Ignore lines starting with '#' (comments)
+                lines = [line.strip() for line in content.split('\n') if line.strip() and not line.strip().startswith('#')]
+                if lines:
+                    return lines[0]
         except Exception:
             return None
 
     return None
 
 def call_gemini_api(api_key, user_message, history, system_instruction):
-    endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
+    endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key={api_key}"
     
     contents = []
     for msg in history:
@@ -60,7 +64,7 @@ def call_gemini_api(api_key, user_message, history, system_instruction):
             headers={'Content-Type': 'application/json'},
             method='POST'
         )
-        with urllib.request.urlopen(req, timeout=10) as response:
+        with urllib.request.urlopen(req, timeout=30) as response:
             resp_data = json.loads(response.read().decode('utf-8'))
             candidates = resp_data.get("candidates", [])
             if candidates:
@@ -334,6 +338,8 @@ class RAGHandler(http.server.SimpleHTTPRequestHandler):
                 # Read Gemini API Key
                 api_key = get_gemini_key()
                 
+                is_resume_request = any(w in message.lower() for w in ["resume", "cv", "download resume", "download cv"])
+                
                 if api_key:
                     sys_prompt = "You are Aditya AI, representing Aditya (a Fresher AI & Software Engineer). "
                     if context_text:
@@ -341,10 +347,13 @@ class RAGHandler(http.server.SimpleHTTPRequestHandler):
                     else:
                         sys_prompt += "\nNo matching resume context was found. Answer questions politely as his assistant. "
                     sys_prompt += "Keep answers under 3 sentences max, and speak from Aditya's perspective (e.g. 'I built this...')."
+                    sys_prompt += "\nIf the user asks for my resume, CV, or how to download it, you MUST provide them with this exact clickable HTML link: <a href='documents/resume.pdf' target='_blank' class='chat-link'>Download my Resume (PDF)</a>. Make sure to use this exact link tag so they can download it."
                     
                     bot_reply = call_gemini_api(api_key, message, history, sys_prompt)
                 else:
-                    if hits:
+                    if is_resume_request:
+                        bot_reply = "Sure! You can download my resume here: <a href='documents/resume.pdf' target='_blank' class='chat-link'>Download Resume (PDF)</a>."
+                    elif hits:
                         match = hits[0]
                         clean_text = match['text'].replace('\n', ' ')
                         bot_reply = f"[RAG OFFLINE MATCH] (Confidence: {int(match['score']*100)}%):\n\n\"{clean_text}\"\n\n(Configure Aditya's Gemini API key in admin dashboard for full conversation generation)"
@@ -368,6 +377,17 @@ class RAGHandler(http.server.SimpleHTTPRequestHandler):
                 payload = json.loads(post_data.decode('utf-8'))
                 filename = payload.get('filename', 'resume.pdf')
                 chunks = payload.get('chunks', [])
+                file_b64 = payload.get('file_b64', '')
+                
+                if file_b64:
+                    import base64
+                    documents_dir = os.path.join(os.path.dirname(__file__), "documents")
+                    if not os.path.exists(documents_dir):
+                        os.makedirs(documents_dir)
+                    pdf_path = os.path.join(documents_dir, "resume.pdf")
+                    with open(pdf_path, 'wb') as f:
+                        f.write(base64.b64decode(file_b64))
+                    print(f"[RAG] Saved uploaded PDF file to: {pdf_path}")
                 
                 rag_engine.save_index(filename, chunks)
                 

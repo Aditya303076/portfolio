@@ -907,6 +907,8 @@ const chatMessages = document.getElementById('chat-messages');
 const chatInput = document.getElementById('chat-input');
 const chatSendBtn = document.getElementById('chat-send-btn');
 const botStatusText = document.getElementById('bot-status-text');
+const heroChatBtn = document.getElementById('hero-chat-btn');
+const suggestionChips = document.querySelectorAll('.suggestion-chip');
 
 // Toggle chatbot panel open/close
 if (chatbotBubble && chatbotWidget && chatInput) {
@@ -916,6 +918,14 @@ if (chatbotBubble && chatbotWidget && chatInput) {
         if (chatbotWidget.classList.contains('active')) {
             chatInput.focus();
         }
+    });
+}
+
+if (heroChatBtn && chatbotWidget && chatInput) {
+    heroChatBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        chatbotWidget.classList.add('active');
+        chatInput.focus();
     });
 }
 
@@ -1020,13 +1030,17 @@ if (chatSendBtn) {
 }
 
 // Suggestion chip triggers
-suggestionChips.forEach(chip => {
-    chip.addEventListener('click', () => {
-        const query = chip.getAttribute('data-query');
-        chatInput.value = query;
-        handleUserSend();
+if (suggestionChips && suggestionChips.length > 0) {
+    suggestionChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            const query = chip.getAttribute('data-query');
+            if (chatInput) {
+                chatInput.value = query;
+                handleUserSend();
+            }
+        });
     });
-});
+}
 
 // UI helper methods
 function addUserMessage(text) {

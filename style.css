@@ -1280,6 +1280,18 @@ textarea.form-input {
     border: var(--border-glass);
 }
 
+.message.bot a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    font-weight: 600;
+    transition: var(--transition-fast);
+}
+
+.message.bot a:hover {
+    color: #fff;
+    text-shadow: 0 0 8px var(--color-accent);
+}
+
 .message.user {
     background: var(--color-accent);
     color: var(--color-bg-base);
