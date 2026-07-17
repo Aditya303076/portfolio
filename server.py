@@ -35,7 +35,7 @@ def get_gemini_key():
     return None
 
 def call_gemini_api(api_key, user_message, history, system_instruction):
-    endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key={api_key}"
+    endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key={api_key}"
     
     contents = []
     for msg in history:
