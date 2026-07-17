@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aditya | Creative Full-Stack & AI Developer Portfolio</title>
-    
+
     <!-- Meta Descriptions for SEO -->
-    <meta name="description" content="Explore Aditya's interactive developer portfolio featuring advanced AI chatbots, custom Flutter applications, and high-performance full-stack web designs.">
-    <meta name="keywords" content="Aditya, Portfolio, Full-Stack Developer, AI Chatbot, Flutter Developer, Web Development, Creative Coding, EmotionAI">
+    <meta name="description"
+        content="Explore Aditya's interactive developer portfolio featuring advanced AI chatbots, custom Flutter applications, and high-performance full-stack web designs.">
+    <meta name="keywords"
+        content="Aditya, Portfolio, Full-Stack Developer, AI Chatbot, Flutter Developer, Web Development, Creative Coding, EmotionAI">
     <meta name="author" content="Aditya">
-    
+
     <!-- CSS Stylesheets -->
     <link rel="stylesheet" href="style.css">
-    
+
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
 </head>
+
 <body>
 
     <!-- Canvas for Floating Particles -->
@@ -31,8 +35,10 @@
                 <li><a href="#process">Process</a></li>
                 <li><a href="#projects">Work</a></li>
                 <li><a href="#faq">FAQ</a></li>
-                <li><button id="nav-cmd-btn" class="nav-cmd-btn" title="Open Command Palette (Ctrl+K)"><i class="fa-solid fa-terminal"></i> <span class="kbd-hint">Ctrl K</span></button></li>
-                <li><a href="#contact" class="btn-secondary" style="padding: 0.5rem 1.2rem; font-size: 0.9rem;">Contact</a></li>
+                <li><button id="nav-cmd-btn" class="nav-cmd-btn" title="Open Command Palette (Ctrl+K)"><i
+                            class="fa-solid fa-terminal"></i> <span class="kbd-hint">Ctrl K</span></button></li>
+                <li><a href="#contact" class="btn-secondary"
+                        style="padding: 0.5rem 1.2rem; font-size: 0.9rem;">Contact</a></li>
             </ul>
             <button class="mobile-menu-btn" aria-label="Toggle Menu" id="mobile-menu-btn">
                 <i class="fa-solid fa-bars"></i>
@@ -48,7 +54,8 @@
                 <span class="section-label" id="dyn-hero-label">AI & Software Engineer</span>
                 <h1 id="dyn-hero-title">ADITYA<br><span class="text-stroke">DEV & CREATIVE</span><br>ENGINEER</h1>
                 <p class="hero-tagline" id="dyn-hero-tagline">
-                    Building premium full-stack interfaces, hardware-integrated mobile systems (Flutter), and intelligent agent implementations. Crafting high-performance digital ecosystems.
+                    Building premium full-stack interfaces, hardware-integrated mobile systems (Flutter), and
+                    intelligent agent implementations. Crafting high-performance digital ecosystems.
                 </p>
                 <div class="hero-buttons">
                     <a href="#contact" class="btn-primary">Get in Touch</a>
@@ -69,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="hero-mockup reveal-item" style="transition-delay: 0.2s;">
                 <div class="mockup-container">
                     <div class="mockup-bg-circle"></div>
@@ -89,9 +96,11 @@
                     <div class="mockup-item chat glass-panel">
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
                             <div style="width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></div>
-                            <span style="font-size: 0.75rem; text-transform: uppercase; color: #aaa;">Aditya AI Bot</span>
+                            <span style="font-size: 0.75rem; text-transform: uppercase; color: #aaa;">Aditya AI
+                                Bot</span>
                         </div>
-                        <div style="font-size: 0.85rem; color: #f3f4f6;" id="dyn-mock-chat-bubble">"Hi! I can share Aditya's experience in full-stack dev and AI. What would you like to know?"</div>
+                        <div style="font-size: 0.85rem; color: #f3f4f6;" id="dyn-mock-chat-bubble">"Hi! I can share
+                            Aditya's experience in full-stack dev and AI. What would you like to know?"</div>
                     </div>
                 </div>
             </div>
@@ -109,38 +118,50 @@
                         <!-- Connection Lines -->
                         <g class="conn-lines">
                             <!-- Flutter to SQL -->
-                            <path d="M 100 80 L 100 220" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" stroke-dasharray="4 4" />
+                            <path d="M 100 80 L 100 220" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2"
+                                stroke-dasharray="4 4" />
                             <!-- Flutter to LLM -->
-                            <path d="M 100 80 L 300 80" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" stroke-dasharray="4 4" />
+                            <path d="M 100 80 L 300 80" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2"
+                                stroke-dasharray="4 4" />
                             <!-- SQL to RAG -->
-                            <path d="M 100 220 L 300 220" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" stroke-dasharray="4 4" />
+                            <path d="M 100 220 L 300 220" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2"
+                                stroke-dasharray="4 4" />
                             <!-- RAG to LLM -->
-                            <path d="M 300 220 L 300 80" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" stroke-dasharray="4 4" />
+                            <path d="M 300 220 L 300 80" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2"
+                                stroke-dasharray="4 4" />
                         </g>
-                        
+
                         <!-- Flow animation circles -->
                         <circle class="flow-dot f-to-l" cx="100" cy="80" r="3.5" fill="var(--color-accent)" />
                         <circle class="flow-dot s-to-r" cx="100" cy="220" r="3.5" fill="var(--color-accent-blue)" />
-                        
+
                         <!-- Node Flutter -->
                         <g class="diagram-node node-flutter" transform="translate(100, 80)">
-                            <rect x="-45" y="-20" width="90" height="40" rx="8" fill="rgba(11, 12, 19, 0.9)" stroke="rgba(255, 204, 1, 0.2)" stroke-width="1.5" />
-                            <text x="0" y="5" font-family="var(--font-body)" font-weight="700" font-size="9" fill="#f3f4f6" text-anchor="middle">FLUTTER MOBILE</text>
+                            <rect x="-45" y="-20" width="90" height="40" rx="8" fill="rgba(11, 12, 19, 0.9)"
+                                stroke="rgba(255, 204, 1, 0.2)" stroke-width="1.5" />
+                            <text x="0" y="5" font-family="var(--font-body)" font-weight="700" font-size="9"
+                                fill="#f3f4f6" text-anchor="middle">FLUTTER MOBILE</text>
                         </g>
                         <!-- Node SQLite -->
                         <g class="diagram-node" transform="translate(100, 220)">
-                            <rect x="-45" y="-20" width="90" height="40" rx="8" fill="rgba(11, 12, 19, 0.9)" stroke="rgba(255, 255, 255, 0.06)" stroke-width="1.5" />
-                            <text x="0" y="5" font-family="var(--font-body)" font-weight="500" font-size="9" fill="#9ca3af" text-anchor="middle">SQLITE CACHE</text>
+                            <rect x="-45" y="-20" width="90" height="40" rx="8" fill="rgba(11, 12, 19, 0.9)"
+                                stroke="rgba(255, 255, 255, 0.06)" stroke-width="1.5" />
+                            <text x="0" y="5" font-family="var(--font-body)" font-weight="500" font-size="9"
+                                fill="#9ca3af" text-anchor="middle">SQLITE CACHE</text>
                         </g>
                         <!-- Node Gemini LLM -->
                         <g class="diagram-node node-gemini" transform="translate(300, 80)">
-                            <rect x="-45" y="-20" width="90" height="40" rx="8" fill="rgba(11, 12, 19, 0.9)" stroke="var(--color-accent)" stroke-width="1.5" />
-                            <text x="0" y="5" font-family="var(--font-body)" font-weight="700" font-size="9" fill="#f3f4f6" text-anchor="middle">GEMINI AGENT</text>
+                            <rect x="-45" y="-20" width="90" height="40" rx="8" fill="rgba(11, 12, 19, 0.9)"
+                                stroke="var(--color-accent)" stroke-width="1.5" />
+                            <text x="0" y="5" font-family="var(--font-body)" font-weight="700" font-size="9"
+                                fill="#f3f4f6" text-anchor="middle">GEMINI AGENT</text>
                         </g>
                         <!-- Node RAG -->
                         <g class="diagram-node" transform="translate(300, 220)">
-                            <rect x="-45" y="-20" width="90" height="40" rx="8" fill="rgba(11, 12, 19, 0.9)" stroke="rgba(255, 255, 255, 0.06)" stroke-width="1.5" />
-                            <text x="0" y="5" font-family="var(--font-body)" font-weight="500" font-size="9" fill="#9ca3af" text-anchor="middle">RAG INDEX</text>
+                            <rect x="-45" y="-20" width="90" height="40" rx="8" fill="rgba(11, 12, 19, 0.9)"
+                                stroke="rgba(255, 255, 255, 0.06)" stroke-width="1.5" />
+                            <text x="0" y="5" font-family="var(--font-body)" font-weight="500" font-size="9"
+                                fill="#9ca3af" text-anchor="middle">RAG INDEX</text>
                         </g>
                     </svg>
                     <div class="diagram-label">SYSTEM DATAFLOW ARCHITECTURE</div>
@@ -151,14 +172,20 @@
                 <h2 class="section-title">THE VISION<br>BEHIND THE CODE</h2>
                 <div id="dyn-about-desc">
                     <p>
-                        I design and implement custom digital applications that combine functional efficiency with premium visual appeal. My expertise spans mobile development via Flutter (integrating device hardware and local storage solutions) and advanced AI pipelines (utilizing Large Language Model APIs for custom reasoning tasks).
+                        I design and implement custom digital applications that combine functional efficiency with
+                        premium visual appeal. My expertise spans mobile development via Flutter (integrating device
+                        hardware and local storage solutions) and advanced AI pipelines (utilizing Large Language Model
+                        APIs for custom reasoning tasks).
                     </p>
                     <p>
-                        Inspired by premium digital agency philosophies, I prioritize high performance, micro-interactions, responsive structures, and strong typographic layout. Every system I build is structured for scalability and long-term search accessibility.
+                        Inspired by premium digital agency philosophies, I prioritize high performance,
+                        micro-interactions, responsive structures, and strong typographic layout. Every system I build
+                        is structured for scalability and long-term search accessibility.
                     </p>
                 </div>
                 <div class="highlight-box">
-                    <p id="dyn-about-quote">"The code we design today builds the foundations for the automated platforms of tomorrow."</p>
+                    <p id="dyn-about-quote">"The code we design today builds the foundations for the automated platforms
+                        of tomorrow."</p>
                 </div>
             </div>
         </div>
@@ -176,27 +203,30 @@
                 <div>
                     <div class="icon"><i class="fa-solid fa-microchip"></i></div>
                     <h3>AI & Intelligent Systems</h3>
-                    <p>Building customized Retrieval-Augmented Generation (RAG) engines, embedding search pipelines, and integrating live Google Gemini configurations to drive automated agent tasks.</p>
+                    <p>Building customized Retrieval-Augmented Generation (RAG) engines, embedding search pipelines, and
+                        integrating live Google Gemini configurations to drive automated agent tasks.</p>
                 </div>
                 <a href="#contact" class="read-more">Work Together</a>
             </div>
-            
+
             <!-- Service 2 -->
             <div class="service-card glass-panel reveal-item" style="transition-delay: 0.1s;">
                 <div>
                     <div class="icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
                     <h3>Flutter Mobile Apps</h3>
-                    <p>Designing cross-platform native iOS & Android applications with optimized local database architectures, camera service feeds, biometric authentication, and custom animation curves.</p>
+                    <p>Designing cross-platform native iOS & Android applications with optimized local database
+                        architectures, camera service feeds, biometric authentication, and custom animation curves.</p>
                 </div>
                 <a href="#contact" class="read-more">Work Together</a>
             </div>
-            
+
             <!-- Service 3 -->
             <div class="service-card glass-panel reveal-item" style="transition-delay: 0.2s;">
                 <div>
                     <div class="icon"><i class="fa-solid fa-code"></i></div>
                     <h3>Full-Stack Web Apps</h3>
-                    <p>Implementing clean, responsive frontend layouts integrated with secure backend logic, standard session authorizations, fast API routes, and modern rendering engines.</p>
+                    <p>Implementing clean, responsive frontend layouts integrated with secure backend logic, standard
+                        session authorizations, fast API routes, and modern rendering engines.</p>
                 </div>
                 <a href="#contact" class="read-more">Work Together</a>
             </div>
@@ -214,7 +244,7 @@
             <svg class="process-road-svg" viewBox="0 0 1200 150">
                 <path d="M 150,80 Q 300,5 450,80 T 750,80 T 1050,80" />
             </svg>
-            
+
             <div class="process-steps">
                 <!-- Step 1 -->
                 <div class="process-step reveal-item">
@@ -250,7 +280,7 @@
             <span class="section-label">Featured Work</span>
             <h2 class="section-title">PROJECT SHOWCASE</h2>
         </div>
-        
+
         <div id="dyn-projects-container" class="reveal-item">
             <!-- Dynamically populated projects list or single interactive project -->
         </div>
@@ -272,11 +302,13 @@
                     </button>
                     <div class="faq-answer">
                         <div class="faq-answer-content">
-                            I specialize in cross-platform mobile systems built with Flutter (Dart), frontend interfaces using modern HTML, JavaScript, and Vanilla CSS, and backend systems structured around Node.js and AI APIs such as Google Gemini.
+                            I specialize in cross-platform mobile systems built with Flutter (Dart), frontend interfaces
+                            using modern HTML, JavaScript, and Vanilla CSS, and backend systems structured around
+                            Node.js and AI APIs such as Google Gemini.
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- FAQ 2 -->
                 <div class="faq-item">
                     <button class="faq-question-btn" aria-expanded="false">
@@ -285,7 +317,9 @@
                     </button>
                     <div class="faq-answer">
                         <div class="faq-answer-content">
-                            Yes. I design custom client-side chatbots capable of running on pre-set knowledge parameters or connecting directly to live LLM systems via API channels to answer client inquiries interactively.
+                            Yes. I design custom client-side chatbots capable of running on pre-set knowledge parameters
+                            or connecting directly to live LLM systems via API channels to answer client inquiries
+                            interactively.
                         </div>
                     </div>
                 </div>
@@ -298,7 +332,9 @@
                     </button>
                     <div class="faq-answer">
                         <div class="faq-answer-content">
-                            I implement native camera controllers inside Flutter using platform service layers. This setup handles resolution configurations, stream buffers, and connects with classification models for real-time evaluations.
+                            I implement native camera controllers inside Flutter using platform service layers. This
+                            setup handles resolution configurations, stream buffers, and connects with classification
+                            models for real-time evaluations.
                         </div>
                     </div>
                 </div>
@@ -311,7 +347,10 @@
                     </button>
                     <div class="faq-answer">
                         <div class="faq-answer-content">
-                            The portfolio chatbot features a settings panel (the gear icon on the header). Open the panel, insert your Google Gemini API key, and the bot will transition from pre-configured RAG replies to a live AI model conversational experience. Your key is stored securely in your browser's localStorage.
+                            The portfolio chatbot features a settings panel (the gear icon on the header). Open the
+                            panel, insert your Google Gemini API key, and the bot will transition from pre-configured
+                            RAG replies to a live AI model conversational experience. Your key is stored securely in
+                            your browser's localStorage.
                         </div>
                     </div>
                 </div>
@@ -325,14 +364,16 @@
             <div class="contact-info reveal-item">
                 <span class="section-label">Get in Touch</span>
                 <h2>LET'S BUILD<br>SOMETHING</h2>
-                <p>Have an upcoming mobile app, AI implementation, or premium website project? Drop me a message and let's get started.</p>
-                
+                <p>Have an upcoming mobile app, AI implementation, or premium website project? Drop me a message and
+                    let's get started.</p>
+
                 <div class="info-details">
                     <div class="info-item" id="copy-email-btn" title="Click to copy email">
                         <div class="icon"><i class="fa-solid fa-envelope"></i></div>
                         <div>
                             <h4>Email</h4>
-                            <p>info@aditya.dev <i class="fa-regular fa-copy" style="font-size: 0.8rem; margin-left: 5px; opacity: 0.6;"></i></p>
+                            <p>adityachudasama098@gmail.com <i class="fa-regular fa-copy"
+                                    style="font-size: 0.8rem; margin-left: 5px; opacity: 0.6;"></i></p>
                         </div>
                     </div>
                     <div class="info-item">
@@ -358,7 +399,8 @@
                     <textarea id="form-message" class="form-input" placeholder=" " required></textarea>
                     <label for="form-message" class="form-label">Message</label>
                 </div>
-                <button type="submit" class="btn-primary" style="width: 100%; text-align: center; border: none; cursor: pointer;">Send Inquiry</button>
+                <button type="submit" class="btn-primary"
+                    style="width: 100%; text-align: center; border: none; cursor: pointer;">Send Inquiry</button>
             </form>
         </div>
     </section>
@@ -368,11 +410,16 @@
         <div class="footer-container">
             <a href="#" class="footer-logo">ADITYA<span>.</span></a>
             <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
-                <a href="admin.html" class="footer-link" style="color: var(--color-accent); text-decoration: none; font-weight: 700; font-size: 0.95rem;"><i class="fa-solid fa-lock" style="margin-right: 5px;"></i> Admin Panel</a>
+                <a href="admin.html" class="footer-link"
+                    style="color: var(--color-accent); text-decoration: none; font-weight: 700; font-size: 0.95rem;"><i
+                        class="fa-solid fa-lock" style="margin-right: 5px;"></i> Admin Panel</a>
                 <div class="footer-socials">
-                    <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-                    <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-                    <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="https://github.com" target="_blank" aria-label="GitHub"><i
+                            class="fa-brands fa-github"></i></a>
+                    <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i
+                            class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i
+                            class="fa-brands fa-x-twitter"></i></a>
                 </div>
             </div>
             <p class="footer-copy">&copy; 2026 Aditya. All rights reserved.</p>
@@ -392,23 +439,26 @@
                 </div>
                 <div class="terminal-title">aditya-ai@terminal: ~</div>
             </div>
-            
+
             <!-- Messages Log Tab -->
             <div class="chat-tab-content" id="chat-messages-tab">
                 <div class="chat-messages" id="chat-messages">
                     <div class="message bot" id="dyn-chatbot-greeting">
-                        Hi! I am Aditya's AI Assistant. I can tell you about his projects (like the Camera Service inside EmotionAI), skills, workflow, or contact details. Ask me anything!
+                        Hi! I am Aditya's AI Assistant. I can tell you about his projects (like the Camera Service
+                        inside EmotionAI), skills, workflow, or contact details. Ask me anything!
                     </div>
                 </div>
-                
+
                 <!-- Quick replies suggestions chip tray -->
                 <div class="chat-suggestions">
                     <div class="suggestion-chip" data-query="Tell me about EmotionAI">Tell me about EmotionAI</div>
-                    <div class="suggestion-chip" data-query="What are your coding skills?">What are your coding skills?</div>
+                    <div class="suggestion-chip" data-query="What are your coding skills?">What are your coding skills?
+                    </div>
                     <div class="suggestion-chip" data-query="How can I hire you?">How can I hire you?</div>
-                    <div class="suggestion-chip" data-query="What is your development process?">What is your process?</div>
+                    <div class="suggestion-chip" data-query="What is your development process?">What is your process?
+                    </div>
                 </div>
-                
+
                 <!-- Input container -->
                 <div class="chat-input-container terminal-input-container">
                     <span class="terminal-prompt-char">$</span>
@@ -419,7 +469,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Toggle Bubble Button -->
         <button class="chatbot-bubble" id="chatbot-bubble" aria-label="Open Chatbot">
             <i class="fa-solid fa-comment-dots"></i>
@@ -427,27 +477,39 @@
     </div>
 
     <!-- Command Palette Modal -->
-    <div class="cmd-palette" id="cmd-palette" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Command Palette">
+    <div class="cmd-palette" id="cmd-palette" aria-hidden="true" role="dialog" aria-modal="true"
+        aria-label="Command Palette">
         <div class="cmd-palette-content glass-panel">
             <div class="cmd-palette-header">
                 <i class="fa-solid fa-magnifying-glass cmd-search-icon"></i>
                 <input type="text" id="cmd-palette-input" placeholder="Type a command or search..." autocomplete="off">
-                <button class="cmd-close-btn" id="cmd-close-btn" aria-label="Close Command Palette"><i class="fa-solid fa-xmark"></i></button>
+                <button class="cmd-close-btn" id="cmd-close-btn" aria-label="Close Command Palette"><i
+                        class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="cmd-palette-body">
                 <div class="cmd-palette-suggestions" id="cmd-palette-suggestions">
                     <div class="cmd-group-title">Navigation Shortcuts</div>
-                    <div class="cmd-item" data-action="nav" data-target="about"><i class="fa-solid fa-user"></i> Go to About Section <span class="cmd-shortcut">/about</span></div>
-                    <div class="cmd-item" data-action="nav" data-target="services"><i class="fa-solid fa-gears"></i> Go to Services <span class="cmd-shortcut">/services</span></div>
-                    <div class="cmd-item" data-action="nav" data-target="process"><i class="fa-solid fa-route"></i> Go to Process Roadmap <span class="cmd-shortcut">/process</span></div>
-                    <div class="cmd-item" data-action="nav" data-target="projects"><i class="fa-solid fa-code"></i> Go to Project Showcase <span class="cmd-shortcut">/work</span></div>
-                    <div class="cmd-item" data-action="nav" data-target="faq"><i class="fa-solid fa-circle-question"></i> Go to FAQ <span class="cmd-shortcut">/faq</span></div>
-                    <div class="cmd-item" data-action="nav" data-target="contact"><i class="fa-solid fa-envelope"></i> Go to Contact <span class="cmd-shortcut">/contact</span></div>
-                    
+                    <div class="cmd-item" data-action="nav" data-target="about"><i class="fa-solid fa-user"></i> Go to
+                        About Section <span class="cmd-shortcut">/about</span></div>
+                    <div class="cmd-item" data-action="nav" data-target="services"><i class="fa-solid fa-gears"></i> Go
+                        to Services <span class="cmd-shortcut">/services</span></div>
+                    <div class="cmd-item" data-action="nav" data-target="process"><i class="fa-solid fa-route"></i> Go
+                        to Process Roadmap <span class="cmd-shortcut">/process</span></div>
+                    <div class="cmd-item" data-action="nav" data-target="projects"><i class="fa-solid fa-code"></i> Go
+                        to Project Showcase <span class="cmd-shortcut">/work</span></div>
+                    <div class="cmd-item" data-action="nav" data-target="faq"><i
+                            class="fa-solid fa-circle-question"></i> Go to FAQ <span class="cmd-shortcut">/faq</span>
+                    </div>
+                    <div class="cmd-item" data-action="nav" data-target="contact"><i class="fa-solid fa-envelope"></i>
+                        Go to Contact <span class="cmd-shortcut">/contact</span></div>
+
                     <div class="cmd-group-title">Interactive Tasks</div>
-                    <div class="cmd-item" data-action="chat" data-target="hello"><i class="fa-solid fa-comment"></i> Talk to Aditya AI Chatbot <span class="cmd-shortcut">/chat [msg]</span></div>
-                    <div class="cmd-item" data-action="admin"><i class="fa-solid fa-lock"></i> Open Admin Panel Settings <span class="cmd-shortcut">/admin</span></div>
-                    <div class="cmd-item" data-action="grid"><i class="fa-solid fa-circle-half-stroke"></i> Toggle Spotlight Grid <span class="cmd-shortcut">/grid</span></div>
+                    <div class="cmd-item" data-action="chat" data-target="hello"><i class="fa-solid fa-comment"></i>
+                        Talk to Aditya AI Chatbot <span class="cmd-shortcut">/chat [msg]</span></div>
+                    <div class="cmd-item" data-action="admin"><i class="fa-solid fa-lock"></i> Open Admin Panel Settings
+                        <span class="cmd-shortcut">/admin</span></div>
+                    <div class="cmd-item" data-action="grid"><i class="fa-solid fa-circle-half-stroke"></i> Toggle
+                        Spotlight Grid <span class="cmd-shortcut">/grid</span></div>
                 </div>
                 <div class="cmd-palette-results" id="cmd-palette-results" style="display: none;">
                     <!-- Filtered options display here -->
@@ -464,4 +526,5 @@
     <!-- Script File -->
     <script src="script.js"></script>
 </body>
+
 </html>
