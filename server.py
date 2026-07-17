@@ -74,7 +74,14 @@ def call_gemini_api(api_key, user_message, history, system_instruction):
             return "No candidates returned from Gemini API."
     except Exception as e:
         print(f"[Gemini Error] API call failed: {e}")
-        return "Error communicating with Gemini backend API. Make sure your server has internet access and the API key is correct."
+        err_msg = str(e)
+        import urllib.error
+        if isinstance(e, urllib.error.HTTPError):
+            try:
+                err_msg += f" - Detail: {e.read().decode('utf-8')}"
+            except Exception:
+                pass
+        return f"Error communicating with Gemini backend API: {err_msg}"
 
 # --------------------------------------------------------------------------
 # LOCAL TF-IDF VECTOR SCORING ENGINE
